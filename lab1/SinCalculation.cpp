@@ -13,11 +13,6 @@ long double SinCalculation(long double x, long long n) {
     long double sign = 1.0;
 
     for (long long i = 1; i < n; i++) {
-        // term = sign * powl(x, 2 * i + 1);
-        // for (long long j = 1; j <= 2 * i + 1; j++) {
-        //     term /= j;
-        // }
-        // sin += term;
         sin += sign * prev;
         prev *= (x * x) / ((2 * i) * (2 * i + 1));
         sign = -sign;
@@ -41,7 +36,6 @@ int main(int argc, char *argv[]) {
     int runs = 5;
     double time_total = 0;
 
-// 9 223 372 036 854 775 800
     for (long long i = 0; i < runs; i++) {
         clock_gettime(CLOCK_MONOTONIC_RAW, &start);
         double rad_x = DegToRad(x);
