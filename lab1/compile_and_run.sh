@@ -3,7 +3,7 @@
 input="SinCalculation.cpp"
 
 optimization_levels=("-O0" "-O1" "-O2" "-O3" "-Os")
-n=1080000000
+n=2300000000
 x=90
 
 echo "Optimixation level, N value, X value, Time taken (seconds)" > report.csv
@@ -15,3 +15,5 @@ for i in "${optimization_levels[@]}"; do
 done
 
 echo "Successfully generated report.csv"
+
+./create_table.sh
