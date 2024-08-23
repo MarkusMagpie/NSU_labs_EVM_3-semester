@@ -1,0 +1,418 @@
+	.file	"SinCalculation.cpp"
+	.text
+	.local	_ZStL8__ioinit
+	.comm	_ZStL8__ioinit,1,1
+	.globl	_Z8DegToRade
+	.type	_Z8DegToRade, @function
+_Z8DegToRade:
+.LFB2324:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	fldt	16(%rbp)
+	fldt	.LC0(%rip)
+	fmulp	%st, %st(1)
+	fldt	.LC1(%rip)
+	fdivrp	%st, %st(1)
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2324:
+	.size	_Z8DegToRade, .-_Z8DegToRade
+	.globl	_Z14SinCalculationex
+	.type	_Z14SinCalculationex, @function
+_Z14SinCalculationex:
+.LFB2325:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movq	%rdi, -72(%rbp)
+	fldz
+	fstpt	-48(%rbp)
+	fldt	16(%rbp)
+	fstpt	-32(%rbp)
+	fld1
+	fstpt	-16(%rbp)
+	movq	$1, -56(%rbp)
+	jmp	.L4
+.L5:
+	fldt	-16(%rbp)
+	fldt	-32(%rbp)
+	fmulp	%st, %st(1)
+	fldt	-48(%rbp)
+	faddp	%st, %st(1)
+	fstpt	-48(%rbp)
+	fldt	16(%rbp)
+	fld	%st(0)
+	fmulp	%st, %st(1)
+	movq	-56(%rbp), %rax
+	addq	%rax, %rax
+	addq	$1, %rax
+	imulq	-56(%rbp), %rax
+	addq	%rax, %rax
+	movq	%rax, -96(%rbp)
+	fildq	-96(%rbp)
+	fdivrp	%st, %st(1)
+	fldt	-32(%rbp)
+	fmulp	%st, %st(1)
+	fstpt	-32(%rbp)
+	fldt	-16(%rbp)
+	fchs
+	fstpt	-96(%rbp)
+	movq	-96(%rbp), %rax
+	movl	-88(%rbp), %edx
+	movq	%rax, -16(%rbp)
+	movl	%edx, -8(%rbp)
+	addq	$1, -56(%rbp)
+.L4:
+	movq	-56(%rbp), %rax
+	cmpq	-72(%rbp), %rax
+	jl	.L5
+	fldt	-48(%rbp)
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2325:
+	.size	_Z14SinCalculationex, .-_Z14SinCalculationex
+	.section	.rodata
+	.align 8
+.LC5:
+	.string	"Usage: <angle in degrees> <number of terms>"
+.LC6:
+	.string	"x = "
+.LC7:
+	.string	", n = "
+.LC10:
+	.string	"sin("
+.LC11:
+	.string	") = "
+.LC12:
+	.string	"Run \342\204\226"
+.LC13:
+	.string	" took "
+.LC14:
+	.string	" seconds to complete"
+.LC15:
+	.string	"\n"
+.LC16:
+	.string	"Average time: "
+.LC17:
+	.string	" seconds"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB2326:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$160, %rsp
+	movl	%edi, -132(%rbp)
+	movq	%rsi, -144(%rbp)
+	movq	%fs:40, %rax
+	movq	%rax, -8(%rbp)
+	xorl	%eax, %eax
+	cmpl	$3, -132(%rbp)
+	je	.L8
+	leaq	.LC5(%rip), %rax
+	movq	%rax, %rsi
+	leaq	_ZSt4cerr(%rip), %rax
+	movq	%rax, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
+	movq	%rdx, %rsi
+	movq	%rax, %rdi
+	call	_ZNSolsEPFRSoS_E@PLT
+	movl	$0, %eax
+	jmp	.L12
+.L8:
+	movq	-144(%rbp), %rax
+	addq	$8, %rax
+	movq	(%rax), %rax
+	movq	%rax, %rdi
+	call	atoll@PLT
+	movq	%rax, -152(%rbp)
+	fildq	-152(%rbp)
+	fstpt	-48(%rbp)
+	movq	-144(%rbp), %rax
+	addq	$16, %rax
+	movq	(%rax), %rax
+	movq	%rax, %rdi
+	call	atoll@PLT
+	movq	%rax, -104(%rbp)
+	leaq	.LC6(%rip), %rax
+	movq	%rax, %rsi
+	leaq	_ZSt4cout(%rip), %rax
+	movq	%rax, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	pushq	-40(%rbp)
+	pushq	-48(%rbp)
+	movq	%rax, %rdi
+	call	_ZNSolsEe@PLT
+	addq	$16, %rsp
+	movq	%rax, %rdx
+	leaq	.LC7(%rip), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	%rax, %rdx
+	movq	-104(%rbp), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZNSolsEx@PLT
+	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
+	movq	%rdx, %rsi
+	movq	%rax, %rdi
+	call	_ZNSolsEPFRSoS_E@PLT
+	movl	$5, -124(%rbp)
+	pxor	%xmm0, %xmm0
+	movsd	%xmm0, -120(%rbp)
+	movq	$0, -112(%rbp)
+	jmp	.L10
+.L11:
+	leaq	-80(%rbp), %rax
+	movq	%rax, %rsi
+	movl	$4, %edi
+	call	clock_gettime@PLT
+	pushq	-40(%rbp)
+	pushq	-48(%rbp)
+	call	_Z8DegToRade
+	addq	$16, %rsp
+	fstpl	-96(%rbp)
+	fldl	-96(%rbp)
+	movq	-104(%rbp), %rax
+	leaq	-16(%rsp), %rsp
+	fstpt	(%rsp)
+	movq	%rax, %rdi
+	call	_Z14SinCalculationex
+	addq	$16, %rsp
+	fstpt	-32(%rbp)
+	leaq	-64(%rbp), %rax
+	movq	%rax, %rsi
+	movl	$4, %edi
+	call	clock_gettime@PLT
+	movq	-64(%rbp), %rax
+	movq	-80(%rbp), %rdx
+	subq	%rdx, %rax
+	pxor	%xmm1, %xmm1
+	cvtsi2sdq	%rax, %xmm1
+	movq	-56(%rbp), %rax
+	movq	-72(%rbp), %rdx
+	subq	%rdx, %rax
+	pxor	%xmm0, %xmm0
+	cvtsi2sdq	%rax, %xmm0
+	movsd	.LC9(%rip), %xmm2
+	divsd	%xmm2, %xmm0
+	addsd	%xmm1, %xmm0
+	movsd	%xmm0, -88(%rbp)
+	leaq	.LC10(%rip), %rax
+	movq	%rax, %rsi
+	leaq	_ZSt4cout(%rip), %rax
+	movq	%rax, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	pushq	-40(%rbp)
+	pushq	-48(%rbp)
+	movq	%rax, %rdi
+	call	_ZNSolsEe@PLT
+	addq	$16, %rsp
+	movq	%rax, %rdx
+	leaq	.LC11(%rip), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	pushq	-24(%rbp)
+	pushq	-32(%rbp)
+	movq	%rax, %rdi
+	call	_ZNSolsEe@PLT
+	addq	$16, %rsp
+	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
+	movq	%rdx, %rsi
+	movq	%rax, %rdi
+	call	_ZNSolsEPFRSoS_E@PLT
+	leaq	.LC12(%rip), %rax
+	movq	%rax, %rsi
+	leaq	_ZSt4cout(%rip), %rax
+	movq	%rax, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	%rax, %rdx
+	movq	-112(%rbp), %rax
+	addq	$1, %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZNSolsEx@PLT
+	movq	%rax, %rdx
+	leaq	.LC13(%rip), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	%rax, %rdx
+	movq	-88(%rbp), %rax
+	movq	%rax, %xmm0
+	movq	%rdx, %rdi
+	call	_ZNSolsEd@PLT
+	movq	%rax, %rdx
+	leaq	.LC14(%rip), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	%rax, %rdx
+	leaq	.LC15(%rip), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
+	movq	%rdx, %rsi
+	movq	%rax, %rdi
+	call	_ZNSolsEPFRSoS_E@PLT
+	movsd	-120(%rbp), %xmm0
+	addsd	-88(%rbp), %xmm0
+	movsd	%xmm0, -120(%rbp)
+	addq	$1, -112(%rbp)
+.L10:
+	movl	-124(%rbp), %eax
+	cltq
+	cmpq	%rax, -112(%rbp)
+	jl	.L11
+	leaq	.LC16(%rip), %rax
+	movq	%rax, %rsi
+	leaq	_ZSt4cout(%rip), %rax
+	movq	%rax, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	%rax, %rdx
+	pxor	%xmm1, %xmm1
+	cvtsi2sdl	-124(%rbp), %xmm1
+	movsd	-120(%rbp), %xmm0
+	divsd	%xmm1, %xmm0
+	movq	%xmm0, %rax
+	movq	%rax, %xmm0
+	movq	%rdx, %rdi
+	call	_ZNSolsEd@PLT
+	movq	%rax, %rdx
+	leaq	.LC17(%rip), %rax
+	movq	%rax, %rsi
+	movq	%rdx, %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
+	movq	%rdx, %rsi
+	movq	%rax, %rdi
+	call	_ZNSolsEPFRSoS_E@PLT
+	movl	$0, %eax
+.L12:
+	movq	-8(%rbp), %rdx
+	subq	%fs:40, %rdx
+	je	.L13
+	call	__stack_chk_fail@PLT
+.L13:
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2326:
+	.size	main, .-main
+	.type	_Z41__static_initialization_and_destruction_0ii, @function
+_Z41__static_initialization_and_destruction_0ii:
+.LFB2982:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$16, %rsp
+	movl	%edi, -4(%rbp)
+	movl	%esi, -8(%rbp)
+	cmpl	$1, -4(%rbp)
+	jne	.L16
+	cmpl	$65535, -8(%rbp)
+	jne	.L16
+	leaq	_ZStL8__ioinit(%rip), %rax
+	movq	%rax, %rdi
+	call	_ZNSt8ios_base4InitC1Ev@PLT
+	leaq	__dso_handle(%rip), %rax
+	movq	%rax, %rdx
+	leaq	_ZStL8__ioinit(%rip), %rax
+	movq	%rax, %rsi
+	movq	_ZNSt8ios_base4InitD1Ev@GOTPCREL(%rip), %rax
+	movq	%rax, %rdi
+	call	__cxa_atexit@PLT
+.L16:
+	nop
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2982:
+	.size	_Z41__static_initialization_and_destruction_0ii, .-_Z41__static_initialization_and_destruction_0ii
+	.type	_GLOBAL__sub_I__Z8DegToRade, @function
+_GLOBAL__sub_I__Z8DegToRade:
+.LFB2983:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movl	$65535, %esi
+	movl	$1, %edi
+	call	_Z41__static_initialization_and_destruction_0ii
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2983:
+	.size	_GLOBAL__sub_I__Z8DegToRade, .-_GLOBAL__sub_I__Z8DegToRade
+	.section	.init_array,"aw"
+	.align 8
+	.quad	_GLOBAL__sub_I__Z8DegToRade
+	.section	.rodata
+	.align 16
+.LC0:
+	.long	560513024
+	.long	-921707870
+	.long	16384
+	.long	0
+	.align 16
+.LC1:
+	.long	0
+	.long	-1275068416
+	.long	16390
+	.long	0
+	.align 8
+.LC9:
+	.long	0
+	.long	1104006501
+	.hidden	__dso_handle
+	.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	1f - 0f
+	.long	4f - 1f
+	.long	5
+0:
+	.string	"GNU"
+1:
+	.align 8
+	.long	0xc0000002
+	.long	3f - 2f
+2:
+	.long	0x3
+3:
+	.align 8
+4:

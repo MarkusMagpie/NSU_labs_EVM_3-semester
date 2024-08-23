@@ -1,0 +1,537 @@
+	.file	"SinCalculation.cpp"
+	.text
+	.local	_ZStL8__ioinit
+	.comm	_ZStL8__ioinit,1,1
+	.globl	_Z8DegToRade
+	.type	_Z8DegToRade, @function
+_Z8DegToRade:
+.LFB2298:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	call	__x86.get_pc_thunk.ax
+	addl	$_GLOBAL_OFFSET_TABLE_, %eax
+	fldt	8(%ebp)
+	fldt	.LC0@GOTOFF(%eax)
+	fmulp	%st, %st(1)
+	fldt	.LC1@GOTOFF(%eax)
+	fdivrp	%st, %st(1)
+	popl	%ebp
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+.LFE2298:
+	.size	_Z8DegToRade, .-_Z8DegToRade
+	.globl	_Z14SinCalculationex
+	.type	_Z14SinCalculationex, @function
+_Z14SinCalculationex:
+.LFB2299:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	pushl	%ebx
+	subl	$76, %esp
+	.cfi_offset 3, -12
+	call	__x86.get_pc_thunk.ax
+	addl	$_GLOBAL_OFFSET_TABLE_, %eax
+	movl	20(%ebp), %edx
+	movl	%edx, -64(%ebp)
+	movl	24(%ebp), %edx
+	movl	%edx, -60(%ebp)
+	fldz
+	fstpt	-44(%ebp)
+	fldt	8(%ebp)
+	fstpt	-32(%ebp)
+	fld1
+	fstpt	-20(%ebp)
+	movl	$1, -56(%ebp)
+	movl	$0, -52(%ebp)
+	jmp	.L4
+.L5:
+	fldt	-20(%ebp)
+	fldt	-32(%ebp)
+	fmulp	%st, %st(1)
+	fldt	-44(%ebp)
+	faddp	%st, %st(1)
+	fstpt	-44(%ebp)
+	fldt	8(%ebp)
+	fld	%st(0)
+	fmulp	%st, %st(1)
+	movl	-56(%ebp), %eax
+	movl	-52(%ebp), %edx
+	shldl	$1, %eax, %edx
+	addl	%eax, %eax
+	addl	$1, %eax
+	adcl	$0, %edx
+	movl	-56(%ebp), %ecx
+	movl	%ecx, %ebx
+	imull	%edx, %ebx
+	movl	-52(%ebp), %ecx
+	imull	%eax, %ecx
+	addl	%ebx, %ecx
+	mull	-56(%ebp)
+	addl	%edx, %ecx
+	movl	%ecx, %edx
+	shldl	$1, %eax, %edx
+	addl	%eax, %eax
+	movl	%eax, -80(%ebp)
+	movl	%edx, -76(%ebp)
+	fildq	-80(%ebp)
+	fdivrp	%st, %st(1)
+	fldt	-32(%ebp)
+	fmulp	%st, %st(1)
+	fstpt	-32(%ebp)
+	fldt	-20(%ebp)
+	fchs
+	fstpt	-80(%ebp)
+	movl	-80(%ebp), %eax
+	movl	-76(%ebp), %edx
+	movl	-72(%ebp), %ecx
+	movl	%eax, -20(%ebp)
+	movl	%edx, -16(%ebp)
+	movl	%ecx, -12(%ebp)
+	addl	$1, -56(%ebp)
+	adcl	$0, -52(%ebp)
+.L4:
+	movl	-56(%ebp), %eax
+	movl	-52(%ebp), %edx
+	cmpl	-64(%ebp), %eax
+	movl	%edx, %eax
+	sbbl	-60(%ebp), %eax
+	jl	.L5
+	fldt	-44(%ebp)
+	movl	-4(%ebp), %ebx
+	leave
+	.cfi_restore 5
+	.cfi_restore 3
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+.LFE2299:
+	.size	_Z14SinCalculationex, .-_Z14SinCalculationex
+	.section	.rodata
+	.align 4
+.LC4:
+	.string	"Usage: <angle in degrees> <number of terms>"
+.LC5:
+	.string	"x = "
+.LC6:
+	.string	", n = "
+.LC9:
+	.string	"sin("
+.LC10:
+	.string	") = "
+.LC11:
+	.string	"Run \342\204\226"
+.LC12:
+	.string	" took "
+.LC13:
+	.string	" seconds to complete"
+.LC14:
+	.string	"\n"
+.LC15:
+	.string	"Average time: "
+.LC16:
+	.string	" seconds"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB2300:
+	.cfi_startproc
+	leal	4(%esp), %ecx
+	.cfi_def_cfa 1, 0
+	andl	$-16, %esp
+	pushl	-4(%ecx)
+	pushl	%ebp
+	movl	%esp, %ebp
+	.cfi_escape 0x10,0x5,0x2,0x75,0
+	pushl	%ebx
+	pushl	%ecx
+	.cfi_escape 0xf,0x3,0x75,0x78,0x6
+	.cfi_escape 0x10,0x3,0x2,0x75,0x7c
+	subl	$112, %esp
+	call	__x86.get_pc_thunk.bx
+	addl	$_GLOBAL_OFFSET_TABLE_, %ebx
+	movl	%ecx, %eax
+	movl	4(%eax), %edx
+	movl	%edx, -108(%ebp)
+	movl	%gs:20, %edx
+	movl	%edx, -12(%ebp)
+	xorl	%edx, %edx
+	cmpl	$3, (%eax)
+	je	.L8
+	subl	$8, %esp
+	leal	.LC4@GOTOFF(%ebx), %eax
+	pushl	%eax
+	movl	_ZSt4cerr@GOT(%ebx), %eax
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	movl	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOT(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZNSolsEPFRSoS_E@PLT
+	addl	$16, %esp
+	movl	$0, %eax
+	jmp	.L12
+.L8:
+	movl	-108(%ebp), %eax
+	addl	$4, %eax
+	movl	(%eax), %eax
+	subl	$12, %esp
+	pushl	%eax
+	call	atoll@PLT
+	addl	$16, %esp
+	movl	%eax, -120(%ebp)
+	movl	%edx, -116(%ebp)
+	fildq	-120(%ebp)
+	fstpt	-36(%ebp)
+	movl	-108(%ebp), %eax
+	addl	$8, %eax
+	movl	(%eax), %eax
+	subl	$12, %esp
+	pushl	%eax
+	call	atoll@PLT
+	addl	$16, %esp
+	movl	%eax, -80(%ebp)
+	movl	%edx, -76(%ebp)
+	subl	$8, %esp
+	leal	.LC5@GOTOFF(%ebx), %eax
+	pushl	%eax
+	movl	_ZSt4cout@GOT(%ebx), %eax
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	pushl	-28(%ebp)
+	pushl	-32(%ebp)
+	pushl	-36(%ebp)
+	pushl	%eax
+	call	_ZNSolsEe@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	leal	.LC6@GOTOFF(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	subl	$4, %esp
+	pushl	-76(%ebp)
+	pushl	-80(%ebp)
+	pushl	%eax
+	call	_ZNSolsEx@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	movl	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOT(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZNSolsEPFRSoS_E@PLT
+	addl	$16, %esp
+	movl	$5, -100(%ebp)
+	fldz
+	fstpl	-96(%ebp)
+	movl	$0, -88(%ebp)
+	movl	$0, -84(%ebp)
+	jmp	.L10
+.L11:
+	subl	$8, %esp
+	leal	-52(%ebp), %eax
+	pushl	%eax
+	pushl	$4
+	call	clock_gettime@PLT
+	addl	$16, %esp
+	subl	$4, %esp
+	pushl	-28(%ebp)
+	pushl	-32(%ebp)
+	pushl	-36(%ebp)
+	call	_Z8DegToRade
+	addl	$16, %esp
+	fstpl	-72(%ebp)
+	fldl	-72(%ebp)
+	subl	$12, %esp
+	pushl	-76(%ebp)
+	pushl	-80(%ebp)
+	leal	-12(%esp), %esp
+	fstpt	(%esp)
+	call	_Z14SinCalculationex
+	addl	$32, %esp
+	fstpt	-24(%ebp)
+	subl	$8, %esp
+	leal	-44(%ebp), %eax
+	pushl	%eax
+	pushl	$4
+	call	clock_gettime@PLT
+	addl	$16, %esp
+	movl	-44(%ebp), %eax
+	movl	-52(%ebp), %edx
+	subl	%edx, %eax
+	movl	%eax, -120(%ebp)
+	fildl	-120(%ebp)
+	movl	-40(%ebp), %eax
+	movl	-48(%ebp), %edx
+	subl	%edx, %eax
+	movl	%eax, -120(%ebp)
+	fildl	-120(%ebp)
+	fldl	.LC8@GOTOFF(%ebx)
+	fdivrp	%st, %st(1)
+	faddp	%st, %st(1)
+	fstpl	-64(%ebp)
+	subl	$8, %esp
+	leal	.LC9@GOTOFF(%ebx), %eax
+	pushl	%eax
+	movl	_ZSt4cout@GOT(%ebx), %eax
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	pushl	-28(%ebp)
+	pushl	-32(%ebp)
+	pushl	-36(%ebp)
+	pushl	%eax
+	call	_ZNSolsEe@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	leal	.LC10@GOTOFF(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	pushl	-16(%ebp)
+	pushl	-20(%ebp)
+	pushl	-24(%ebp)
+	pushl	%eax
+	call	_ZNSolsEe@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	movl	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOT(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZNSolsEPFRSoS_E@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	leal	.LC11@GOTOFF(%ebx), %eax
+	pushl	%eax
+	movl	_ZSt4cout@GOT(%ebx), %eax
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	movl	%eax, %ecx
+	movl	-88(%ebp), %eax
+	movl	-84(%ebp), %edx
+	addl	$1, %eax
+	adcl	$0, %edx
+	subl	$4, %esp
+	pushl	%edx
+	pushl	%eax
+	pushl	%ecx
+	call	_ZNSolsEx@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	leal	.LC12@GOTOFF(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	subl	$4, %esp
+	pushl	-60(%ebp)
+	pushl	-64(%ebp)
+	pushl	%eax
+	call	_ZNSolsEd@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	leal	.LC13@GOTOFF(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	leal	.LC14@GOTOFF(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	movl	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOT(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZNSolsEPFRSoS_E@PLT
+	addl	$16, %esp
+	fldl	-96(%ebp)
+	faddl	-64(%ebp)
+	fstpl	-96(%ebp)
+	addl	$1, -88(%ebp)
+	adcl	$0, -84(%ebp)
+.L10:
+	movl	-100(%ebp), %eax
+	cltd
+	movl	-84(%ebp), %ecx
+	cmpl	%eax, -88(%ebp)
+	sbbl	%edx, %ecx
+	jl	.L11
+	subl	$8, %esp
+	leal	.LC15@GOTOFF(%ebx), %eax
+	pushl	%eax
+	movl	_ZSt4cout@GOT(%ebx), %eax
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	fildl	-100(%ebp)
+	fldl	-96(%ebp)
+	fdivp	%st, %st(1)
+	subl	$4, %esp
+	leal	-8(%esp), %esp
+	fstpl	(%esp)
+	pushl	%eax
+	call	_ZNSolsEd@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	leal	.LC16@GOTOFF(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	addl	$16, %esp
+	subl	$8, %esp
+	movl	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOT(%ebx), %edx
+	pushl	%edx
+	pushl	%eax
+	call	_ZNSolsEPFRSoS_E@PLT
+	addl	$16, %esp
+	movl	$0, %eax
+.L12:
+	movl	-12(%ebp), %edx
+	subl	%gs:20, %edx
+	je	.L13
+	call	__stack_chk_fail_local
+.L13:
+	leal	-8(%ebp), %esp
+	popl	%ecx
+	.cfi_restore 1
+	.cfi_def_cfa 1, 0
+	popl	%ebx
+	.cfi_restore 3
+	popl	%ebp
+	.cfi_restore 5
+	leal	-4(%ecx), %esp
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+.LFE2300:
+	.size	main, .-main
+	.type	_Z41__static_initialization_and_destruction_0ii, @function
+_Z41__static_initialization_and_destruction_0ii:
+.LFB2959:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	pushl	%ebx
+	subl	$4, %esp
+	.cfi_offset 3, -12
+	call	__x86.get_pc_thunk.bx
+	addl	$_GLOBAL_OFFSET_TABLE_, %ebx
+	cmpl	$1, 8(%ebp)
+	jne	.L16
+	cmpl	$65535, 12(%ebp)
+	jne	.L16
+	subl	$12, %esp
+	leal	_ZStL8__ioinit@GOTOFF(%ebx), %eax
+	pushl	%eax
+	call	_ZNSt8ios_base4InitC1Ev@PLT
+	addl	$16, %esp
+	subl	$4, %esp
+	leal	__dso_handle@GOTOFF(%ebx), %eax
+	pushl	%eax
+	leal	_ZStL8__ioinit@GOTOFF(%ebx), %eax
+	pushl	%eax
+	movl	_ZNSt8ios_base4InitD1Ev@GOT(%ebx), %eax
+	pushl	%eax
+	call	__cxa_atexit@PLT
+	addl	$16, %esp
+.L16:
+	nop
+	movl	-4(%ebp), %ebx
+	leave
+	.cfi_restore 5
+	.cfi_restore 3
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+.LFE2959:
+	.size	_Z41__static_initialization_and_destruction_0ii, .-_Z41__static_initialization_and_destruction_0ii
+	.type	_GLOBAL__sub_I__Z8DegToRade, @function
+_GLOBAL__sub_I__Z8DegToRade:
+.LFB2960:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$8, %esp
+	call	__x86.get_pc_thunk.ax
+	addl	$_GLOBAL_OFFSET_TABLE_, %eax
+	subl	$8, %esp
+	pushl	$65535
+	pushl	$1
+	call	_Z41__static_initialization_and_destruction_0ii
+	addl	$16, %esp
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+.LFE2960:
+	.size	_GLOBAL__sub_I__Z8DegToRade, .-_GLOBAL__sub_I__Z8DegToRade
+	.section	.init_array,"aw"
+	.align 4
+	.long	_GLOBAL__sub_I__Z8DegToRade
+	.section	.rodata
+	.align 16
+.LC0:
+	.long	560513024
+	.long	-921707870
+	.long	16384
+	.align 16
+.LC1:
+	.long	0
+	.long	-1275068416
+	.long	16390
+	.align 8
+.LC8:
+	.long	0
+	.long	1104006501
+	.section	.text.__x86.get_pc_thunk.ax,"axG",@progbits,__x86.get_pc_thunk.ax,comdat
+	.globl	__x86.get_pc_thunk.ax
+	.hidden	__x86.get_pc_thunk.ax
+	.type	__x86.get_pc_thunk.ax, @function
+__x86.get_pc_thunk.ax:
+.LFB2961:
+	.cfi_startproc
+	movl	(%esp), %eax
+	ret
+	.cfi_endproc
+.LFE2961:
+	.section	.text.__x86.get_pc_thunk.bx,"axG",@progbits,__x86.get_pc_thunk.bx,comdat
+	.globl	__x86.get_pc_thunk.bx
+	.hidden	__x86.get_pc_thunk.bx
+	.type	__x86.get_pc_thunk.bx, @function
+__x86.get_pc_thunk.bx:
+.LFB2962:
+	.cfi_startproc
+	movl	(%esp), %ebx
+	ret
+	.cfi_endproc
+.LFE2962:
+	.hidden	__dso_handle
+	.hidden	__stack_chk_fail_local
+	.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
+	.section	.note.GNU-stack,"",@progbits
