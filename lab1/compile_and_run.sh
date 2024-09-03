@@ -1,17 +1,23 @@
 #!/bin/bash
 
-input="SinCalculation.cpp"
+input="PiCalculation.cpp"
 
 optimization_levels=("-O0" "-O1" "-O2" "-O3" "-Os")
-n=2300000000
-x=90
+n=650000000
 
-echo "Optimixation level, N value, X value, Time taken (seconds)" > report.csv
+echo "Optimixation level, N value, Time taken (seconds)" > report.csv
 
 for i in "${optimization_levels[@]}"; do
-    g++ -o sin $input $i -std=c++11
-    output=$(./sin $x $n | grep "Average time:" | awk '{print $3}')
-    echo "$i, $n, $x, $output" >> report.csv
+    g++ -o pi $input $i -std=c++11
+    # output=$(./pi $n | grep "Average time:" | awk '{print $3}')
+    output=$(./pi $n)
+
+    # время выполнения каждой итерации
+    echo "$output" | grep "Run time:" | awk -v opt="$i" -v N="$n" '{print opt ", " N ", " $3}' >> report.csv
+
+    # среднее время
+    avg_time=$(echo "$output" | grep "Average time:" | awk '{print $3}')
+    echo "$i, $n, $avg_time" >> report.csv
 done
 
 echo "Successfully generated report.csv"
