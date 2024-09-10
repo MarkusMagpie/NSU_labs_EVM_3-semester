@@ -1,30 +1,27 @@
-# import matplotlib
-# matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-n_values = [4000000000, 4500000000, 5000000000]
+n_value = 750000000
 
-times_o0 = [35.1887, 39.8341, 43.9038]
-times_o1 = [8.04768, 9.01514, 9.90664]
-times_o2 = [7.84239, 8.87028, 9.99184]
-times_o3 = [7.96013, 8.82066, 9.77772]
-times_os = [8.39481, 9.47931, 10.3841]
-times_ofast = [7.8265, 8.91898, 10.0095]
-times_og = [7.99961, 8.88734, 9.85844]
+times_o0 = 16.55
+times_o1 = 15.97
+times_o2 = 15.87
+times_o3 = 15.89
+times_os = 15.74
+times_ofast = 15.61
+times_og = 16.05
 
-plt.figure(figsize=(12, 6))
+# уровни оптимизации
+optimization_levels = ['-O0', '-O1', '-O2', '-O3', '-Os', '-Ofast', '-Og']
+times = [times_o0, times_o1, times_o2, times_o3, times_os, times_ofast, times_og]
 
-plt.plot(n_values, times_o0, 'r-o', label='-O0')
-plt.plot(n_values, times_o1, 'g-o', label='-O1')
-plt.plot(n_values, times_o2, 'b-o', label='-O2')
-plt.plot(n_values, times_o3, 'y-o', label='-O3')
-plt.plot(n_values, times_os, 'c-o', label='-Os')
-plt.plot(n_values, times_ofast, 'm-o', label='-Ofast')
-plt.plot(n_values, times_og, 'k-o', label='-Og')
+plt.figure(figsize=(10, 5))
 
-plt.xlabel('N value')
+# график
+plt.plot(optimization_levels, times, 'o-', color='b', label=f'N = {n_value}')
+
+plt.xlabel('Optimization Levels')
 plt.ylabel('Time taken (seconds)')
-plt.title('Execution Time vs Optimization Levels and N Values')
+
 plt.legend()
 plt.grid(True)
 
