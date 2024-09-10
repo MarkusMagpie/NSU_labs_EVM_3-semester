@@ -13,6 +13,7 @@ for i in "${optimization_levels[@]}"; do
     output=$(./pi $n)
 
     # время выполнения каждой итерации
+    # https://www.opennet.ru/man.shtml?topic=awk&category=1&russian=2
     echo "$output" | grep "Run time:" | awk -v opt="$i" -v N="$n" '{print opt ", " N ", " $3}' >> report.csv
 
     # среднее время
