@@ -1,402 +1,357 @@
-	.file	"SinCalculation.cpp"
+	.file	"PiCalculation.cpp"
+	.intel_syntax noprefix
 	.text
 	.local	_ZStL8__ioinit
 	.comm	_ZStL8__ioinit,1,1
-	.globl	_Z8DegToRade
-	.type	_Z8DegToRade, @function
-_Z8DegToRade:
-.LFB2324:
+	.globl	_Z13PiCalculationx
+	.type	_Z13PiCalculationx, @function
+_Z13PiCalculationx:
+.LFB1731:
 	.cfi_startproc
 	endbr64
-	pushq	%rbp
+	push	rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
-	movq	%rsp, %rbp
+	mov	rbp, rsp
 	.cfi_def_cfa_register 6
-	fldt	16(%rbp)
-	fldt	.LC0(%rip)
-	fmulp	%st, %st(1)
-	fldt	.LC1(%rip)
-	fdivrp	%st, %st(1)
-	popq	%rbp
-	.cfi_def_cfa 7, 8
-	ret
-	.cfi_endproc
-.LFE2324:
-	.size	_Z8DegToRade, .-_Z8DegToRade
-	.globl	_Z14SinCalculationex
-	.type	_Z14SinCalculationex, @function
-_Z14SinCalculationex:
-.LFB2325:
-	.cfi_startproc
-	endbr64
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	movq	%rdi, -72(%rbp)
-	fldz
-	fstpt	-48(%rbp)
-	fldt	16(%rbp)
-	fstpt	-32(%rbp)
-	fld1
-	fstpt	-16(%rbp)
-	movq	$1, -56(%rbp)
-	jmp	.L4
+	sub	rsp, 48
+	mov	QWORD PTR -40[rbp], rdi
+	mov	QWORD PTR -32[rbp], 0
+	mov	edi, 0
+	call	time@PLT
+	mov	edi, eax
+	call	srand@PLT
+	mov	QWORD PTR -24[rbp], 0
+	jmp	.L2
 .L5:
-	fldt	-16(%rbp)
-	fldt	-32(%rbp)
-	fmulp	%st, %st(1)
-	fldt	-48(%rbp)
-	faddp	%st, %st(1)
-	fstpt	-48(%rbp)
-	fldt	16(%rbp)
-	fld	%st(0)
-	fmulp	%st, %st(1)
-	movq	-56(%rbp), %rax
-	addq	%rax, %rax
-	addq	$1, %rax
-	imulq	-56(%rbp), %rax
-	addq	%rax, %rax
-	movq	%rax, -96(%rbp)
-	fildq	-96(%rbp)
-	fdivrp	%st, %st(1)
-	fldt	-32(%rbp)
-	fmulp	%st, %st(1)
-	fstpt	-32(%rbp)
-	fldt	-16(%rbp)
-	fchs
-	fstpt	-96(%rbp)
-	movq	-96(%rbp), %rax
-	movl	-88(%rbp), %edx
-	movq	%rax, -16(%rbp)
-	movl	%edx, -8(%rbp)
-	addq	$1, -56(%rbp)
-.L4:
-	movq	-56(%rbp), %rax
-	cmpq	-72(%rbp), %rax
+	call	rand@PLT
+	pxor	xmm0, xmm0
+	cvtsi2sd	xmm0, eax
+	movsd	xmm1, QWORD PTR .LC0[rip]
+	divsd	xmm0, xmm1
+	addsd	xmm0, xmm0
+	movsd	xmm1, QWORD PTR .LC1[rip]
+	subsd	xmm0, xmm1
+	movsd	QWORD PTR -16[rbp], xmm0
+	call	rand@PLT
+	pxor	xmm0, xmm0
+	cvtsi2sd	xmm0, eax
+	movsd	xmm1, QWORD PTR .LC0[rip]
+	divsd	xmm0, xmm1
+	addsd	xmm0, xmm0
+	movsd	xmm1, QWORD PTR .LC1[rip]
+	subsd	xmm0, xmm1
+	movsd	QWORD PTR -8[rbp], xmm0
+	movsd	xmm0, QWORD PTR -16[rbp]
+	movapd	xmm1, xmm0
+	mulsd	xmm1, xmm0
+	movsd	xmm0, QWORD PTR -8[rbp]
+	mulsd	xmm0, xmm0
+	addsd	xmm1, xmm0
+	movsd	xmm0, QWORD PTR .LC1[rip]
+	comisd	xmm0, xmm1
+	jb	.L3
+	add	QWORD PTR -32[rbp], 1
+.L3:
+	add	QWORD PTR -24[rbp], 1
+.L2:
+	mov	rax, QWORD PTR -24[rbp]
+	cmp	rax, QWORD PTR -40[rbp]
 	jl	.L5
-	fldt	-48(%rbp)
-	popq	%rbp
+	pxor	xmm1, xmm1
+	cvtsi2sd	xmm1, QWORD PTR -32[rbp]
+	movsd	xmm0, QWORD PTR .LC2[rip]
+	mulsd	xmm0, xmm1
+	pxor	xmm1, xmm1
+	cvtsi2sd	xmm1, QWORD PTR -40[rbp]
+	divsd	xmm0, xmm1
+	movsd	QWORD PTR -48[rbp], xmm0
+	fld	QWORD PTR -48[rbp]
+	leave
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE2325:
-	.size	_Z14SinCalculationex, .-_Z14SinCalculationex
+.LFE1731:
+	.size	_Z13PiCalculationx, .-_Z13PiCalculationx
 	.section	.rodata
-	.align 8
+.LC4:
+	.string	"Invalid number of arguments"
 .LC5:
-	.string	"Usage: <angle in degrees> <number of terms>"
-.LC6:
-	.string	"x = "
+	.string	"N = "
 .LC7:
-	.string	", n = "
-.LC10:
-	.string	"sin("
-.LC11:
-	.string	") = "
-.LC12:
-	.string	"Run \342\204\226"
-.LC13:
-	.string	" took "
-.LC14:
-	.string	" seconds to complete"
-.LC15:
+	.string	"pi = "
+.LC8:
+	.string	"Run time: "
+.LC9:
 	.string	"\n"
-.LC16:
-	.string	"Average time: "
-.LC17:
+.LC10:
+	.string	"Min time: "
+.LC11:
 	.string	" seconds"
 	.text
 	.globl	main
 	.type	main, @function
 main:
-.LFB2326:
+.LFB1732:
 	.cfi_startproc
 	endbr64
-	pushq	%rbp
+	push	rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
-	movq	%rsp, %rbp
+	mov	rbp, rsp
 	.cfi_def_cfa_register 6
-	subq	$160, %rsp
-	movl	%edi, -132(%rbp)
-	movq	%rsi, -144(%rbp)
-	movq	%fs:40, %rax
-	movq	%rax, -8(%rbp)
-	xorl	%eax, %eax
-	cmpl	$3, -132(%rbp)
-	je	.L8
-	leaq	.LC5(%rip), %rax
-	movq	%rax, %rsi
-	leaq	_ZSt4cerr(%rip), %rax
-	movq	%rax, %rdi
+	sub	rsp, 160
+	mov	DWORD PTR -148[rbp], edi
+	mov	QWORD PTR -160[rbp], rsi
+	mov	rax, QWORD PTR fs:40
+	mov	QWORD PTR -8[rbp], rax
+	xor	eax, eax
+	cmp	DWORD PTR -148[rbp], 2
+	je	.L9
+	lea	rax, .LC4[rip]
+	mov	rsi, rax
+	lea	rax, _ZSt4cerr[rip]
+	mov	rdi, rax
 	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
-	movq	%rdx, %rsi
-	movq	%rax, %rdi
+	mov	rdx, QWORD PTR _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL[rip]
+	mov	rsi, rdx
+	mov	rdi, rax
 	call	_ZNSolsEPFRSoS_E@PLT
-	movl	$0, %eax
-	jmp	.L12
-.L8:
-	movq	-144(%rbp), %rax
-	addq	$8, %rax
-	movq	(%rax), %rax
-	movq	%rax, %rdi
+	mov	eax, 0
+	jmp	.L13
+.L9:
+	mov	edi, 2
+	call	sysconf@PLT
+	mov	QWORD PTR -104[rbp], rax
+	mov	rax, QWORD PTR -160[rbp]
+	add	rax, 8
+	mov	rax, QWORD PTR [rax]
+	mov	rdi, rax
 	call	atoll@PLT
-	movq	%rax, -152(%rbp)
-	fildq	-152(%rbp)
-	fstpt	-48(%rbp)
-	movq	-144(%rbp), %rax
-	addq	$16, %rax
-	movq	(%rax), %rax
-	movq	%rax, %rdi
-	call	atoll@PLT
-	movq	%rax, -104(%rbp)
-	leaq	.LC6(%rip), %rax
-	movq	%rax, %rsi
-	leaq	_ZSt4cout(%rip), %rax
-	movq	%rax, %rdi
+	mov	QWORD PTR -96[rbp], rax
+	lea	rax, .LC5[rip]
+	mov	rsi, rax
+	lea	rax, _ZSt4cout[rip]
+	mov	rdi, rax
 	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	pushq	-40(%rbp)
-	pushq	-48(%rbp)
-	movq	%rax, %rdi
-	call	_ZNSolsEe@PLT
-	addq	$16, %rsp
-	movq	%rax, %rdx
-	leaq	.LC7(%rip), %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	%rax, %rdx
-	movq	-104(%rbp), %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
+	mov	rdx, rax
+	mov	rax, QWORD PTR -96[rbp]
+	mov	rsi, rax
+	mov	rdi, rdx
 	call	_ZNSolsEx@PLT
-	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
-	movq	%rdx, %rsi
-	movq	%rax, %rdi
+	mov	rdx, QWORD PTR _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL[rip]
+	mov	rsi, rdx
+	mov	rdi, rax
 	call	_ZNSolsEPFRSoS_E@PLT
-	movl	$5, -124(%rbp)
-	pxor	%xmm0, %xmm0
-	movsd	%xmm0, -120(%rbp)
-	movq	$0, -112(%rbp)
-	jmp	.L10
-.L11:
-	leaq	-80(%rbp), %rax
-	movq	%rax, %rsi
-	movl	$4, %edi
-	call	clock_gettime@PLT
-	pushq	-40(%rbp)
-	pushq	-48(%rbp)
-	call	_Z8DegToRade
-	addq	$16, %rsp
-	fstpl	-96(%rbp)
-	fldl	-96(%rbp)
-	movq	-104(%rbp), %rax
-	leaq	-16(%rsp), %rsp
-	fstpt	(%rsp)
-	movq	%rax, %rdi
-	call	_Z14SinCalculationex
-	addq	$16, %rsp
-	fstpt	-32(%rbp)
-	leaq	-64(%rbp), %rax
-	movq	%rax, %rsi
-	movl	$4, %edi
-	call	clock_gettime@PLT
-	movq	-64(%rbp), %rax
-	movq	-80(%rbp), %rdx
-	subq	%rdx, %rax
-	pxor	%xmm1, %xmm1
-	cvtsi2sdq	%rax, %xmm1
-	movq	-56(%rbp), %rax
-	movq	-72(%rbp), %rdx
-	subq	%rdx, %rax
-	pxor	%xmm0, %xmm0
-	cvtsi2sdq	%rax, %xmm0
-	movsd	.LC9(%rip), %xmm2
-	divsd	%xmm2, %xmm0
-	addsd	%xmm1, %xmm0
-	movsd	%xmm0, -88(%rbp)
-	leaq	.LC10(%rip), %rax
-	movq	%rax, %rsi
-	leaq	_ZSt4cout(%rip), %rax
-	movq	%rax, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	pushq	-40(%rbp)
-	pushq	-48(%rbp)
-	movq	%rax, %rdi
-	call	_ZNSolsEe@PLT
-	addq	$16, %rsp
-	movq	%rax, %rdx
-	leaq	.LC11(%rip), %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	pushq	-24(%rbp)
-	pushq	-32(%rbp)
-	movq	%rax, %rdi
-	call	_ZNSolsEe@PLT
-	addq	$16, %rsp
-	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
-	movq	%rdx, %rsi
-	movq	%rax, %rdi
-	call	_ZNSolsEPFRSoS_E@PLT
-	leaq	.LC12(%rip), %rax
-	movq	%rax, %rsi
-	leaq	_ZSt4cout(%rip), %rax
-	movq	%rax, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	%rax, %rdx
-	movq	-112(%rbp), %rax
-	addq	$1, %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
-	call	_ZNSolsEx@PLT
-	movq	%rax, %rdx
-	leaq	.LC13(%rip), %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	%rax, %rdx
-	movq	-88(%rbp), %rax
-	movq	%rax, %xmm0
-	movq	%rdx, %rdi
-	call	_ZNSolsEd@PLT
-	movq	%rax, %rdx
-	leaq	.LC14(%rip), %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	%rax, %rdx
-	leaq	.LC15(%rip), %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
-	movq	%rdx, %rsi
-	movq	%rax, %rdi
-	call	_ZNSolsEPFRSoS_E@PLT
-	movsd	-120(%rbp), %xmm0
-	addsd	-88(%rbp), %xmm0
-	movsd	%xmm0, -120(%rbp)
-	addq	$1, -112(%rbp)
-.L10:
-	movl	-124(%rbp), %eax
-	cltq
-	cmpq	%rax, -112(%rbp)
-	jl	.L11
-	leaq	.LC16(%rip), %rax
-	movq	%rax, %rsi
-	leaq	_ZSt4cout(%rip), %rax
-	movq	%rax, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	%rax, %rdx
-	pxor	%xmm1, %xmm1
-	cvtsi2sdl	-124(%rbp), %xmm1
-	movsd	-120(%rbp), %xmm0
-	divsd	%xmm1, %xmm0
-	movq	%xmm0, %rax
-	movq	%rax, %xmm0
-	movq	%rdx, %rdi
-	call	_ZNSolsEd@PLT
-	movq	%rax, %rdx
-	leaq	.LC17(%rip), %rax
-	movq	%rax, %rsi
-	movq	%rdx, %rdi
-	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
-	movq	_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL(%rip), %rdx
-	movq	%rdx, %rsi
-	movq	%rax, %rdi
-	call	_ZNSolsEPFRSoS_E@PLT
-	movl	$0, %eax
+	mov	DWORD PTR -132[rbp], 5
+	movsd	xmm0, QWORD PTR .LC6[rip]
+	movsd	QWORD PTR -128[rbp], xmm0
+	mov	QWORD PTR -112[rbp], 0
+	jmp	.L11
 .L12:
-	movq	-8(%rbp), %rdx
-	subq	%fs:40, %rdx
-	je	.L13
-	call	__stack_chk_fail@PLT
+	lea	rax, -80[rbp]
+	mov	rdi, rax
+	call	times@PLT
+	mov	rax, QWORD PTR -96[rbp]
+	mov	rdi, rax
+	call	_Z13PiCalculationx
+	fstp	QWORD PTR -88[rbp]
+	lea	rax, -48[rbp]
+	mov	rdi, rax
+	call	times@PLT
+	mov	rax, QWORD PTR -48[rbp]
+	mov	rdx, QWORD PTR -80[rbp]
+	sub	rax, rdx
+	pxor	xmm0, xmm0
+	cvtsi2sd	xmm0, rax
+	pxor	xmm1, xmm1
+	cvtsi2sd	xmm1, QWORD PTR -104[rbp]
+	divsd	xmm0, xmm1
+	movsd	QWORD PTR -120[rbp], xmm0
+	lea	rax, .LC7[rip]
+	mov	rsi, rax
+	lea	rax, _ZSt4cout[rip]
+	mov	rdi, rax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	mov	rdx, rax
+	mov	rax, QWORD PTR -88[rbp]
+	movq	xmm0, rax
+	mov	rdi, rdx
+	call	_ZNSolsEd@PLT
+	mov	rdx, QWORD PTR _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL[rip]
+	mov	rsi, rdx
+	mov	rdi, rax
+	call	_ZNSolsEPFRSoS_E@PLT
+	lea	rax, .LC8[rip]
+	mov	rsi, rax
+	lea	rax, _ZSt4cout[rip]
+	mov	rdi, rax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	mov	rdx, rax
+	mov	rax, QWORD PTR -120[rbp]
+	movq	xmm0, rax
+	mov	rdi, rdx
+	call	_ZNSolsEd@PLT
+	mov	rdx, rax
+	lea	rax, .LC9[rip]
+	mov	rsi, rax
+	mov	rdi, rdx
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	mov	rdx, QWORD PTR _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL[rip]
+	mov	rsi, rdx
+	mov	rdi, rax
+	call	_ZNSolsEPFRSoS_E@PLT
+	lea	rdx, -120[rbp]
+	lea	rax, -128[rbp]
+	mov	rsi, rdx
+	mov	rdi, rax
+	call	_ZSt3minIdERKT_S2_S2_
+	movsd	xmm0, QWORD PTR [rax]
+	movsd	QWORD PTR -128[rbp], xmm0
+	add	QWORD PTR -112[rbp], 1
+.L11:
+	mov	eax, DWORD PTR -132[rbp]
+	cdqe
+	cmp	QWORD PTR -112[rbp], rax
+	jl	.L12
+	lea	rax, .LC10[rip]
+	mov	rsi, rax
+	lea	rax, _ZSt4cout[rip]
+	mov	rdi, rax
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	mov	rdx, rax
+	mov	rax, QWORD PTR -128[rbp]
+	movq	xmm0, rax
+	mov	rdi, rdx
+	call	_ZNSolsEd@PLT
+	mov	rdx, rax
+	lea	rax, .LC11[rip]
+	mov	rsi, rax
+	mov	rdi, rdx
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+	mov	rdx, QWORD PTR _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@GOTPCREL[rip]
+	mov	rsi, rdx
+	mov	rdi, rax
+	call	_ZNSolsEPFRSoS_E@PLT
+	mov	eax, 0
 .L13:
+	mov	rdx, QWORD PTR -8[rbp]
+	sub	rdx, QWORD PTR fs:40
+	je	.L14
+	call	__stack_chk_fail@PLT
+.L14:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE2326:
+.LFE1732:
 	.size	main, .-main
-	.type	_Z41__static_initialization_and_destruction_0ii, @function
-_Z41__static_initialization_and_destruction_0ii:
-.LFB2982:
+	.section	.text._ZSt3minIdERKT_S2_S2_,"axG",@progbits,_ZSt3minIdERKT_S2_S2_,comdat
+	.weak	_ZSt3minIdERKT_S2_S2_
+	.type	_ZSt3minIdERKT_S2_S2_, @function
+_ZSt3minIdERKT_S2_S2_:
+.LFB1998:
 	.cfi_startproc
 	endbr64
-	pushq	%rbp
+	push	rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
-	movq	%rsp, %rbp
+	mov	rbp, rsp
 	.cfi_def_cfa_register 6
-	subq	$16, %rsp
-	movl	%edi, -4(%rbp)
-	movl	%esi, -8(%rbp)
-	cmpl	$1, -4(%rbp)
-	jne	.L16
-	cmpl	$65535, -8(%rbp)
-	jne	.L16
-	leaq	_ZStL8__ioinit(%rip), %rax
-	movq	%rax, %rdi
+	mov	QWORD PTR -8[rbp], rdi
+	mov	QWORD PTR -16[rbp], rsi
+	mov	rax, QWORD PTR -16[rbp]
+	movsd	xmm1, QWORD PTR [rax]
+	mov	rax, QWORD PTR -8[rbp]
+	movsd	xmm0, QWORD PTR [rax]
+	comisd	xmm0, xmm1
+	jbe	.L20
+	mov	rax, QWORD PTR -16[rbp]
+	jmp	.L18
+.L20:
+	mov	rax, QWORD PTR -8[rbp]
+.L18:
+	pop	rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE1998:
+	.size	_ZSt3minIdERKT_S2_S2_, .-_ZSt3minIdERKT_S2_S2_
+	.text
+	.type	_Z41__static_initialization_and_destruction_0ii, @function
+_Z41__static_initialization_and_destruction_0ii:
+.LFB2238:
+	.cfi_startproc
+	endbr64
+	push	rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	mov	rbp, rsp
+	.cfi_def_cfa_register 6
+	sub	rsp, 16
+	mov	DWORD PTR -4[rbp], edi
+	mov	DWORD PTR -8[rbp], esi
+	cmp	DWORD PTR -4[rbp], 1
+	jne	.L23
+	cmp	DWORD PTR -8[rbp], 65535
+	jne	.L23
+	lea	rax, _ZStL8__ioinit[rip]
+	mov	rdi, rax
 	call	_ZNSt8ios_base4InitC1Ev@PLT
-	leaq	__dso_handle(%rip), %rax
-	movq	%rax, %rdx
-	leaq	_ZStL8__ioinit(%rip), %rax
-	movq	%rax, %rsi
-	movq	_ZNSt8ios_base4InitD1Ev@GOTPCREL(%rip), %rax
-	movq	%rax, %rdi
+	lea	rax, __dso_handle[rip]
+	mov	rdx, rax
+	lea	rax, _ZStL8__ioinit[rip]
+	mov	rsi, rax
+	mov	rax, QWORD PTR _ZNSt8ios_base4InitD1Ev@GOTPCREL[rip]
+	mov	rdi, rax
 	call	__cxa_atexit@PLT
-.L16:
+.L23:
 	nop
 	leave
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE2982:
+.LFE2238:
 	.size	_Z41__static_initialization_and_destruction_0ii, .-_Z41__static_initialization_and_destruction_0ii
-	.type	_GLOBAL__sub_I__Z8DegToRade, @function
-_GLOBAL__sub_I__Z8DegToRade:
-.LFB2983:
+	.type	_GLOBAL__sub_I__Z13PiCalculationx, @function
+_GLOBAL__sub_I__Z13PiCalculationx:
+.LFB2239:
 	.cfi_startproc
 	endbr64
-	pushq	%rbp
+	push	rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
-	movq	%rsp, %rbp
+	mov	rbp, rsp
 	.cfi_def_cfa_register 6
-	movl	$65535, %esi
-	movl	$1, %edi
+	mov	esi, 65535
+	mov	edi, 1
 	call	_Z41__static_initialization_and_destruction_0ii
-	popq	%rbp
+	pop	rbp
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE2983:
-	.size	_GLOBAL__sub_I__Z8DegToRade, .-_GLOBAL__sub_I__Z8DegToRade
+.LFE2239:
+	.size	_GLOBAL__sub_I__Z13PiCalculationx, .-_GLOBAL__sub_I__Z13PiCalculationx
 	.section	.init_array,"aw"
 	.align 8
-	.quad	_GLOBAL__sub_I__Z8DegToRade
+	.quad	_GLOBAL__sub_I__Z13PiCalculationx
 	.section	.rodata
-	.align 16
+	.align 8
 .LC0:
-	.long	560513024
-	.long	-921707870
-	.long	16384
-	.long	0
-	.align 16
+	.long	-4194304
+	.long	1105199103
+	.align 8
 .LC1:
 	.long	0
-	.long	-1275068416
-	.long	16390
-	.long	0
+	.long	1072693248
 	.align 8
-.LC9:
+.LC2:
 	.long	0
-	.long	1104006501
+	.long	1074790400
+	.align 8
+.LC6:
+	.long	0
+	.long	1086556160
 	.hidden	__dso_handle
 	.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
 	.section	.note.GNU-stack,"",@progbits
