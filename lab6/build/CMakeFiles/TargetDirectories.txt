@@ -1,0 +1,3 @@
+/home/sorokinm/Desktop/lab6_EVM/build/CMakeFiles/lab5.dir
+/home/sorokinm/Desktop/lab6_EVM/build/CMakeFiles/edit_cache.dir
+/home/sorokinm/Desktop/lab6_EVM/build/CMakeFiles/rebuild_cache.dir

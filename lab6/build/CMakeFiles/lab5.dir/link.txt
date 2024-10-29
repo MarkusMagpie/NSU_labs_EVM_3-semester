@@ -1,0 +1,1 @@
+/usr/bin/clang++ -g CMakeFiles/lab5.dir/main.cpp.o -o lab5  /usr/lib/x86_64-linux-gnu/libusb-1.0.so 

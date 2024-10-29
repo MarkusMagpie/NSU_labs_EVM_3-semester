@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/sorokinm/Desktop/lab6_EVM/build",
+  "command": "/usr/bin/clang++  -I/usr/include/libusb-1.0 -g -std=gnu++23 -o CMakeFiles/lab5.dir/main.cpp.o -c /home/sorokinm/Desktop/lab6_EVM/main.cpp",
+  "file": "/home/sorokinm/Desktop/lab6_EVM/main.cpp",
+  "output": "CMakeFiles/lab5.dir/main.cpp.o"
+}
+]
