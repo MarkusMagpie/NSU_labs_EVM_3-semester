@@ -1,4 +1,4 @@
- //#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 
 #include <opencv2/core.hpp> // basic building blocks (cv::Mat)
 #include <opencv2/highgui.hpp> // GUI functions (namedWindow; destroyAllWindows; imshow)
