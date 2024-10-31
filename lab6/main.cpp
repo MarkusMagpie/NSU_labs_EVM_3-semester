@@ -11,16 +11,17 @@ void printDeviceInfo(libusb_device *dev) {
 
     // Выводим класс устройства, идентификатор производителя и идентификатор изделия
     std::cout << "Класс устройства: " << (int)desc.bDeviceClass << std::endl;
-    std::cout << "ID производителя: " << std::hex << desc.idVendor << std::endl;
-    std::cout << "ID изделия: " << std::hex << desc.idProduct << std::endl;
+    std::cout << "ID производителя: " << (int)desc.idVendor << std::endl;
+    std::cout << "Идентификатор устройства: " << std::hex << desc.idProduct << std::endl;
 
     // Получаем и выводим серийный номер устройства
     if (desc.iSerialNumber) {
-        libusb_device_handle *handle;
+        libusb_device_handle *handle; // хендлер где будем хранить конфигурации
         r = libusb_open(dev, &handle);
         if (r == 0) {
             unsigned char serialNumber[256];
-            int length = libusb_get_string_descriptor_ascii(handle, desc.iSerialNumber, serialNumber, sizeof(serialNumber));
+			// получить дескриптор  устройства в виде строки символов
+            int length = libusb_get_string_descriptor_ascii(handle, desc.iSerialNumber, serialNumber, sizeof(serialNumber)); 
             if (length > 0) {
                 std::cout << "Серийный номер: " << serialNumber << std::endl;
             } else {
@@ -38,10 +39,10 @@ void printDeviceInfo(libusb_device *dev) {
 }
 
 int main() {
-    libusb_device **devs;
-    libusb_context *ctx = NULL;
-    int r;
-    ssize_t cnt;
+    libusb_device **devs; // указатель на указатель на устройство, используется для получения списка устройств
+    libusb_context *ctx = NULL; // контекст сессии libusb
+    int r; // для возвращаемых значений
+    ssize_t cnt; // число найденных USB-устройств
 
     // Инициализируем libusb
     r = libusb_init(&ctx);
