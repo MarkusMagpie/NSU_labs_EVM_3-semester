@@ -11,7 +11,7 @@ void printDeviceInfo(libusb_device *dev) {
 
     // Выводим класс устройства, идентификатор производителя и идентификатор изделия
     std::cout << "Класс устройства: " << (int)desc.bDeviceClass << std::endl;
-    std::cout << "ID производителя: " << (int)desc.idVendor << std::endl;
+    std::cout << "Идентификатор производителя: " << (int)desc.idVendor << std::endl;
     std::cout << "Идентификатор устройства: " << std::hex << desc.idProduct << std::endl;
 
     // Получаем и выводим серийный номер устройства
