@@ -14,25 +14,30 @@ void printDeviceInfo(libusb_device *dev) {
     std::cout << "Идентификатор производителя: " << (int)desc.idVendor << std::endl;
     std::cout << "Идентификатор устройства: " << std::hex << desc.idProduct << std::endl;
 
+    libusb_device_handle *handle; // хендлер где будем хранить конфигурации
+    r = libusb_open(dev, &handle);
+
     // Получаем и выводим серийный номер устройства
-    if (desc.iSerialNumber) {
-        libusb_device_handle *handle; // хендлер где будем хранить конфигурации
-        r = libusb_open(dev, &handle);
-        if (r == 0) {
-            unsigned char serialNumber[256];
-			// получить дескриптор  устройства в виде строки символов
-            int length = libusb_get_string_descriptor_ascii(handle, desc.iSerialNumber, serialNumber, sizeof(serialNumber)); 
-            if (length > 0) {
-                std::cout << "Серийный номер: " << serialNumber << std::endl;
-            } else {
-                std::cerr << "Ошибка: не удалось получить серийный номер." << std::endl;
-            }
-            libusb_close(handle);
-        } else {
-            std::cerr << "Ошибка: не удалось открыть устройство для получения серийного номера." << std::endl;
+    if (r == 0) {
+        unsigned char serialNumber[256];
+        unsigned char Manufacturer[256];
+        unsigned char Product[256];
+        // получить дескриптор  устройства в виде строки символов
+        if (libusb_get_string_descriptor_ascii(handle, desc.iSerialNumber, serialNumber, sizeof(serialNumber)) > 0) { 
+            std::cout << "Серийный номер: " << serialNumber << std::endl;
         }
+
+        if (libusb_get_string_descriptor_ascii(handle, desc.iManufacturer, Manufacturer, sizeof(Manufacturer)) > 0) {
+            std::cout << "Производитель: " << Manufacturer << std::endl;
+        }
+
+        if (libusb_get_string_descriptor_ascii(handle, desc.iProduct, Product, sizeof(Product)) > 0) {
+            std::cout << "Изделие: " << Product << std::endl;
+        }
+
+        libusb_close(handle);
     } else {
-        std::cout << "Серийный номер отсутствует." << std::endl;
+        std::cerr << "Ошибка: не удалось открыть устройство." << std::endl;
     }
     
     std::cout << "--------------------------" << std::endl;
@@ -72,3 +77,5 @@ int main() {
 
     return 0;
 }
+
+// use sudo ./executable to run
