@@ -11,7 +11,7 @@ void printDeviceInfo(libusb_device *dev) {
 
     // Выводим класс устройства, идентификатор производителя и идентификатор изделия
     std::cout << "Класс устройства: " << (int)desc.bDeviceClass << std::endl;
-    std::cout << "Идентификатор производителя: " << (int)desc.idVendor << std::endl;
+    std::cout << "Идентификатор производителя: " << desc.idVendor << std::endl;
     std::cout << "Идентификатор устройства: " << std::hex << desc.idProduct << std::endl;
 
     libusb_device_handle *handle; // хендлер где будем хранить конфигурации
@@ -77,5 +77,3 @@ int main() {
 
     return 0;
 }
-
-// use sudo ./executable to run
