@@ -3,7 +3,7 @@
 
 void printDeviceInfo(libusb_device *dev) {
     libusb_device_descriptor desc;
-    int r = libusb_get_device_descriptor(dev, &desc);
+    int r = libusb_get_device_descriptor(dev, &desc); // получение дескриптора USB устройства
     if (r < 0) {
         std::cerr << "Ошибка: не удалось получить дескриптор устройства, код: " << r << std::endl;
         return;
@@ -15,7 +15,7 @@ void printDeviceInfo(libusb_device *dev) {
     std::cout << "Идентификатор устройства: " << std::hex << desc.idProduct << std::endl;
 
     libusb_device_handle *handle; // хендлер где будем хранить конфигурации
-    r = libusb_open(dev, &handle);
+    r = libusb_open(dev, &handle); // открыть устройство (начать работать с устройством) и получить хендлер устройства
 
     // Получаем и выводим серийный номер устройства
     if (r == 0) {
@@ -44,7 +44,7 @@ void printDeviceInfo(libusb_device *dev) {
 }
 
 int main() {
-    libusb_device **devs; // указатель на указатель на устройство, используется для получения списка устройств
+    libusb_device **devs; // массив указателей на устройства, используется для получения списка устройств
     libusb_context *ctx = NULL; // контекст сессии libusb
     int r; // для возвращаемых значений
     ssize_t cnt; // число найденных USB-устройств
