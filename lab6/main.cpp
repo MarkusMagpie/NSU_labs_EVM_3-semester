@@ -19,7 +19,7 @@ void printDeviceInfo(libusb_device *dev) {
 
     // Получаем и выводим серийный номер устройства
     if (r == 0) {
-        unsigned char serialNumber[256];
+        unsigned char serialNumber[256]; // массив для хранения серийного номера
         unsigned char Manufacturer[256];
         unsigned char Product[256];
         // получить дескриптор  устройства в виде строки символов
