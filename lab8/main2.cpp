@@ -7,7 +7,10 @@
 #include <numeric> // std::iota
 
 #define STEP (1 * 1024)             // шаг увеличения размера массива
-#define MAX_SIZE (2000 * 1024)  // максимальный размер массива
+#define MAX_SIZE (1500 * 1024)  // максимальный размер массива
+
+#define LOOPS 3                     // количество повторений
+#define RUNS 4                      // количество запусков
 
 // перемешивание элементов массива СЛУЧАЙНО
 void Shuffle(size_t* array, size_t n) {
@@ -57,7 +60,7 @@ long f(size_t size) {
     if (zero == -1) {
         printf("Couldn't find zero\n");
         free(indicies);
-        exit(EXIT_FAILURE);
+        exit(0);
     }
     std::swap(indicies[zero], indicies[size - 1]);
 
@@ -90,13 +93,15 @@ int main() {
         double kib = i / 1024.0; // Перевод размера в Kib (был в байтах)
 
         double min_time = INFINITY;
-        double f_time = f(i); // Время выполнения функции f
-        double curr_time = f_time / i;
-        min_time = std::min(min_time, curr_time);
+        for (size_t j = 0; j < RUNS; j++) {
+            double f_time = f(i); // Время выполнения функции f
+            double curr_time = f_time / i;
+            min_time = std::min(min_time, curr_time);   
+        }
         // Вывод размера массива в KiB и минимального времени
         // printf("%f\t%f\n", kib, min_time);
         std::cout << kib << "\t" << min_time << std::endl;
     }
 
-    return EXIT_SUCCESS;
+    return 0;
 }
