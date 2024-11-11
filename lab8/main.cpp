@@ -31,12 +31,6 @@ std::vector<size_t> GenerateIndices(size_t size, const std::string& mode) {
 
     if (mode == "reverse") {
         std::reverse(indices.begin(), indices.end()); // Обратный порядок
-    } else if (mode == "random") {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::shuffle(indices.begin(), indices.end(), gen); // Случайный порядок
-        std::iter_swap(std::find(indices.begin(), indices.end(), 0), indices.end() - 1);
-
     }
 
     return indices;
@@ -44,7 +38,7 @@ std::vector<size_t> GenerateIndices(size_t size, const std::string& mode) {
 
 int main() {
     std::vector<size_t> sizes;
-    for (size_t i = 1*1024; i <= 1024*1024; i += 1024) {
+    for (size_t i = 1*1024; i <= 2 * 1024*1024; i += 1024) {
         sizes.push_back(i);
     }
 
@@ -52,9 +46,8 @@ int main() {
 
     std::fstream forward_res("forward_result.txt", std::ios::out);
     std::fstream reverse_res("reverse_result.txt", std::ios::out);
-    std::fstream random_res("random_result.txt", std::ios::out);
 
-    std::string modes[] = {"forward", "reverse", "random"};
+    std::string modes[] = {"forward", "reverse"};
 
     for (size_t size : sizes) {
         std::vector<int> array(size * sizeof(int)); // создаем массив нужного размера в байтах
@@ -69,17 +62,6 @@ int main() {
                 index = indices[i];
             }
 
-            // for (const int &index : indices) {
-            //     std::cout << index << " ";
-            // }
-            // std::cout << std::endl;
-
-            // for (const int &a : array) {
-            //     std::cout << a << " ";
-            // }
-            // std::cout << std::endl;
-            // exit(0);
-
             unsigned long long min_time_ns = 1000000000;
             for (int r = 0; r < repetitions; r++) {
                 min_time_ns = std::min(min_time_ns, MeasureAccessTime(array, dev_null));
@@ -90,11 +72,9 @@ int main() {
             // size * sizeof(int) - размер массива в байтах
             // avg_time_per_element_ns - среднее время доступа к одному элементу в наносекундах
             if (mode == "forward") {
-                forward_res << size * sizeof(int) << " " << avg_time_per_element_ns << std::endl;
+                forward_res << size / 1024 << " " << avg_time_per_element_ns << std::endl;
             } else if (mode == "reverse") {
-                reverse_res << size * sizeof(int) << " " << avg_time_per_element_ns << std::endl;
-            } else {
-                random_res << size * sizeof(int) << " " << avg_time_per_element_ns << std::endl;
+                reverse_res << size / 1024 << " " << avg_time_per_element_ns << std::endl;
             }
         }
     }

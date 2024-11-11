@@ -7,7 +7,7 @@
 #include <numeric> // std::iota
 
 #define STEP (1 * 1024)             // шаг увеличения размера массива
-#define MAX_SIZE (1500 * 1024)  // максимальный размер массива
+#define MAX_SIZE (3 * 1024 * 1024)  // максимальный размер массива
 
 #define LOOPS 3                     // количество повторений
 #define RUNS 4                      // количество запусков
@@ -64,7 +64,7 @@ long f(size_t size) {
     }
     std::swap(indicies[zero], indicies[size - 1]);
 
-    // массив данных, связывая элементы с индикаторами
+    // массив данных, связывая элементы с индексами
     size_t* data = new size_t[size];
     size_t index = 0;
     for (size_t i = 0; i < size; i++) {
@@ -90,7 +90,7 @@ long f(size_t size) {
 
 int main() {
     for (size_t i = STEP; i < MAX_SIZE; i += STEP) {
-        double kib = i / 1024.0; // Перевод размера в Kib (был в байтах)
+        double kib = i / 1024.0; // перевод размера в Kib (был в байтах)
 
         double min_time = INFINITY;
         for (size_t j = 0; j < RUNS; j++) {
@@ -99,7 +99,6 @@ int main() {
             min_time = std::min(min_time, curr_time);   
         }
         // Вывод размера массива в KiB и минимального времени
-        // printf("%f\t%f\n", kib, min_time);
         std::cout << kib << "\t" << min_time << std::endl;
     }
 
