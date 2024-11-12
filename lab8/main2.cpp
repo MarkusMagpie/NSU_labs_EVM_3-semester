@@ -18,9 +18,9 @@ void Shuffle(size_t* array, size_t n) {
     if (n < 2) { 
         return; 
     }
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::shuffle(array, array + n, gen);
+    std::random_device rd; // возвращает случайное значение
+    std::mt19937 gen(rd()); // генератор псевдослучайных чисел, реализующий алгоритм Mersenne Twister
+    std::shuffle(array, array + n, gen); // gen используется как генератор случайных чисел
 }
 
 // Плиск значения в массиве
