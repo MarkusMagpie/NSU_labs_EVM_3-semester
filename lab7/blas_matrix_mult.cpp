@@ -106,33 +106,37 @@ Matrix MultiplyMatrices(const Matrix& matrix1, const Matrix& matrix2) {
     return result;
 }
 
-// нахождение обратной матрицы методом Неймана
+// нахождение обратной матрицы методом Шульца
 Matrix FindInverseMatrix(const Matrix& matrix, unsigned int M) {
+    // 1 транспонирование и нормализация данной матрицы
     Matrix B = matrix;
     Transpose(B);
 
     float A1 = FindMaxAbsSumByColumns(matrix);
     float A2 = FindMaxAbsSumByRows(matrix);
 
-    MultiplyByNumber(B, 1.0f / (A1 * A2));
+    MultiplyByNumber(B, 1.0f / (A1 * A2)); // масштабируем B приближая его к обратной матрице
 
+    // 2 построение начальной ошибки и установка начального значения результата
+    // R = I - BA - матрица-ошибка
     Matrix R = CreateIdentityMatrix(matrix.size);
     Matrix result = R;
 
-    Matrix BA = MultiplyMatrices(B, matrix);
+    Matrix BA = MultiplyMatrices(B, matrix); // BA - приближение умножить на аргумент
     // https://developer.apple.com/documentation/accelerate/1513188-cblas_saxpy
-    cblas_saxpy(matrix.size * matrix.size, -1, BA.elements.data(), 1, R.elements.data(), 1);
+    cblas_saxpy(matrix.size * matrix.size, -1, BA.elements.data(), 1, R.elements.data(), 1); // R = I + (-1)BA
 
+    // 3 итерирование метода 
     Matrix R_series = R;
 
-    // Итерации метода Неймана для приближения обратной матрицы
+    // Итерации для максимального приближения обратной матрицы
     for (unsigned int i = 1; i < M; i++) {
         Matrix tmp = MultiplyMatrices(R_series, R);
         R_series = tmp;
-        cblas_saxpy(result.size * result.size, 1.0f, R_series.elements.data(), 1, result.elements.data(), 1);
+        cblas_saxpy(result.size * result.size, 1.0f, R_series.elements.data(), 1, result.elements.data(), 1); // result += 1 * R_series
     }
 
-    MultiplyByNumber(result, 1 / A2);
+    MultiplyByNumber(result, 1.0f / (A1 * A2));
     return result;
 }
 
@@ -145,25 +149,9 @@ float getMatricesDifference(const Matrix& matrix1, const Matrix& matrix2) {
     return difference;
 }
 
-void PrintMatrix(const Matrix& matrix) {
-    for (unsigned int i = 0; i < matrix.size; i++) {
-        for (unsigned int j = 0; j < matrix.size; j++) {
-            std::cout << matrix.elements[i * matrix.size + j] << " ";
-        }
-        std::cout << "\n";
-    }
-    std::cout << "\n";
-}
-
 int main(int argc, char** argv) {
-    unsigned int N = 5;  // размер матрицы
+    unsigned int N = 2048;  // размер матрицы
     unsigned int M = 10;    // число итераций для приближения
-
-    // переопределяю значения N и M, если они переданы как аргументы командной строки
-    if (argc == 3) {
-        N = std::stoi(argv[1]);
-        M = std::stoi(argv[2]);
-    }
 
     // Создание и заполнение случайной (0 и 1) матрицы
     Matrix matrix(N);
@@ -179,17 +167,17 @@ int main(int argc, char** argv) {
     double duration = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
     std::cout << "Elapsed time: " << duration << " seconds" << std::endl;
 
-    std::cout << "Original matrix: " << std::endl;
-    PrintMatrix(matrix);
+    // std::cout << "Original matrix: " << std::endl;
+    // matrix.print();
 
-    std::cout << "Reversed matrix: " << std::endl;
-    PrintMatrix(inverse);
+    // std::cout << "Reversed matrix: " << std::endl;
+    // inverse.print();
 
     // Проверка качества обратной матрицы, умножая её на исходную и сравнивая с единичной
     Matrix matrix_check = MultiplyMatrices(matrix, inverse);
 
-    std::cout << "Multiplied matrixes: " << std::endl;
-    PrintMatrix(matrix_check);
+    // std::cout << "Multiplied matrixes: " << std::endl;
+    // matrix_check.print();
 
     Matrix identity = CreateIdentityMatrix(N);
     std::cout << "Difference from identity: " << getMatricesDifference(identity, matrix_check) << "\n";
