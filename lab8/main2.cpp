@@ -5,21 +5,22 @@
 #include <chrono>
 #include <iostream>
 #include <numeric> // std::iota
+#include <random>
 
 #define STEP (1 * 1024)             // шаг увеличения размера массива
 #define MAX_SIZE (3 * 1024 * 1024)  // максимальный размер массива
 
-#define LOOPS 3                     // количество повторений
-#define RUNS 4                      // количество запусков
+// #define LOOPS 3                     // количество повторений
+#define RUNS 8                // количество запусков
 
 // перемешивание элементов массива СЛУЧАЙНО
 void Shuffle(size_t* array, size_t n) {
-    if (n < 2) { return; } // массив слишком мал для перемешивания
-    for (size_t i = 0; i < n - 1; i++) {
-        size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
-        // swap(&array[i], &array[j]);
-        std::swap(array[i], array[j]);
+    if (n < 2) { 
+        return; 
     }
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::shuffle(array, array + n, gen);
 }
 
 // Плиск значения в массиве
@@ -57,11 +58,6 @@ long f(size_t size) {
 
     // Находим индекс, равный 0, и перемещаем его в конец массива
     size_t zero = Find(indicies, size, 0);
-    if (zero == -1) {
-        printf("Couldn't find zero\n");
-        free(indicies);
-        exit(0);
-    }
     std::swap(indicies[zero], indicies[size - 1]);
 
     // массив данных, связывая элементы с индексами
