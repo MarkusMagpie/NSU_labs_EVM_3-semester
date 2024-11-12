@@ -1,0 +1,19 @@
+1 BLAS (Basic Linear Algebra Subprograms)
+Пример программы, которая выполняет умножение двух матриц с использованием BLAS.
+
+a set of low-level routines for performing common linear algebra operations such as 
+    vector addition, 
+    scalar multiplication, 
+    dot products, 
+    linear combinations, 
+    matrix multiplication. 
+
+Функция cblas_sgemm: Используется для выполнения умножения двух матриц с элементами типа float. 
+    https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-c/2023-0/cblas-gemm-001.html
+    Аргументы:
+        CblasRowMajor: указывает, что матрицы представлены в строковом порядке.
+        CblasNoTrans: указывает, что матрицы A и B не транспонируются.
+        alpha и beta: коэффициенты для матриц A и C в выражении C=a*A*B + b*C.
+How to compile:
+    g++ -o matrix_multiplication matrix_multiplication.cpp -lblas
+    ./blas
