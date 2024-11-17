@@ -106,7 +106,7 @@ Matrix MultiplyMatrices(const Matrix& matrix1, const Matrix& matrix2) {
     return result;
 }
 
-// нахождение обратной матрицы методом Шульца
+// нахождение обратной матрицы 
 Matrix FindInverseMatrix(const Matrix& matrix, unsigned int M) {
     // 1 транспонирование и нормализация данной матрицы
     Matrix B = matrix;
@@ -150,8 +150,13 @@ float getMatricesDifference(const Matrix& matrix1, const Matrix& matrix2) {
 }
 
 int main(int argc, char** argv) {
-    unsigned int N = 2048;  // размер матрицы
-    unsigned int M = 10;    // число итераций для приближения
+    int N = 2048;  // размер матрицы
+    int M = 10;    // число итераций для приближения
+
+    if (argc == 3) {
+        N = atoi(argv[1]);
+        M = atoi(argv[2]);
+    }
 
     // Создание и заполнение случайной (0 и 1) матрицы
     Matrix matrix(N);
