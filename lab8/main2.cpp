@@ -16,22 +16,22 @@
 #define RUNS 8                // количество запусков
 
 // перемешивание элементов массива СЛУЧАЙНО
-void Shuffle(size_t* array, size_t n) {
-    if (n < 2) { return; }
-    std::random_device rd; // возвращает случайное значение
-    std::mt19937 gen(rd()); // генератор псевдослучайных чисел, реализующий алгоритм Mersenne Twister
-    std::shuffle(array, array + n, gen); // gen используется как генератор случайных чисел
-}
-
 // void Shuffle(size_t* array, size_t n) {
 //     if (n < 2) { return; }
-    
-//     srand((time(nullptr))); // инициализируем генератор rand случайным значением
-//     for (size_t i = n - 1; i > 0; --i) {
-//         size_t j = rand() % (i + 1); // выбираем случайный индекс от 0 до i
-//         std::swap(array[i], array[j]); // меняем элементы местами
-//     }
+//     std::random_device rd; // возвращает случайное значение
+//     std::mt19937 gen(rd()); // генератор псевдослучайных чисел, реализующий алгоритм Mersenne Twister
+//     std::shuffle(array, array + n, gen); // gen используется как генератор случайных чисел
 // }
+
+void Shuffle(size_t* array, size_t n) {
+    if (n < 2) { return; }
+    
+    srand(static_cast<unsigned int>(time(NULL))); // инициализируем генератор rand случайным значением
+    for (size_t i = n - 1; i > 0; --i) {
+        size_t j = rand() % (i + 1); // выбираем случайный индекс от 0 до i
+        std::swap(array[i], array[j]); // меняем элементы местами
+    }
+}
 
 // Плиск значения в массиве
 size_t Find(size_t* array, size_t n, size_t value) {
@@ -102,10 +102,10 @@ int main() {
         for (size_t j = 0; j < RUNS; j++) {
             double f_time = f(i); // Время выполнения функции f
             double curr_time = f_time / i;
-            // min_time = std::min(min_time, curr_time); 
-            if ((curr_time < min_time) && (curr_time > 0)) {
-                min_time = curr_time;
-            }  
+            min_time = std::min(min_time, curr_time); 
+            // if ((curr_time < min_time) && (curr_time > 0)) {
+            //     min_time = curr_time;
+            // }  
         }
         // Вывод размера массива в KiB и минимального времени
         std::cout << kib << "\t" << min_time << std::endl;
