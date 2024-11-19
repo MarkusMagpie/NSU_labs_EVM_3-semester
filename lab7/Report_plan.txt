@@ -8,28 +8,18 @@ a set of low-level routines for performing common linear algebra operations such
     linear combinations, 
     matrix multiplication. 
 
-Функция cblas_sgemm: Используется для выполнения умножения двух матриц с элементами типа float. 
+Функция cblas_sgemm: Используется для умножения двух матриц с элементами типа float. 
     https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-c/2023-0/cblas-gemm-001.html
     Аргументы:
         CblasRowMajor: указывает, что матрицы представлены в строковом порядке.
         CblasNoTrans: указывает, что матрицы A и B не транспонируются.
         alpha и beta: коэффициенты для матриц A и C в выражении C=a*A*B + b*C.
-How to compile:
-    g++ -o blas_t blas_test.cpp -lblas
-    ./blas_t
 ----------------------------------------------------------------------------------------------------
 1.2 Основная программа BLAS - приближённое обратной матрицы 
 https://mathhelpplanet.com/static.php?p=iteratsionnyi-metod-shultsa-nakhozhdeniya-obratnoi-matritsy
 cblas_sscal - умножение матрицы на число
 cblas_sgemm - умножение двух матриц
 cblas_saxpy - суммирование матриц
-
-A^{-1} = B*СУММА_{k=0}^{M-1}(R^k)
-где:
-A - матрица, которой ищем обратную
-B - начальное приближение к обратной матрице А
-R = I - BA - матрица отклонения, I - единичная
-M - количество итераций, выбранное для достижения нужной точности 
 
 How to compile:
     g++ -o blas blas_matrix_mult.cpp -lblas
@@ -40,13 +30,14 @@ How to compile:
 How to compile:
     g++ -o no_vector main_no_vectrotisation.cpp
     ./no_vector
-
-Общая идея метода: 
-    Создаётся матрица B, которая является "первым приближением" к обратной матрице А^{-1}
-    Итерационно уточняется матрица-ошибка R = E - BA
-    Итерационное уточнение позволяет получить матрицу A - искомую
+    
 ----------------------------------------------------------------------------------------------------
 1.4 Программа с ручной векторизации
 How to compile:
     g++ -o vector main_vectrotisation.cpp
     ./vector
+
+----------------------------------------------------------------------------------------------------
+Компиляция и запуск гугл-тестов для проверки варианта программы без векторизации:
+    g++ -o matrix_tests MatrixTest.cpp -lgtest -lgtest_main -pthread
+    ./matrix_tests

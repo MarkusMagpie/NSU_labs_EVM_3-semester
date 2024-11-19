@@ -185,7 +185,7 @@ int main(int argc, char** argv) {
     // matrix_check.print();
 
     Matrix identity = CreateIdentityMatrix(N);
-    std::cout << "Difference from identity: " << getMatricesDifference(identity, matrix_check) << "\n";
+    std::cout << "Difference from identity: " << getMatricesDifference(identity, matrix_check) << "\n" << std::endl;
 
     return 0;
 }
