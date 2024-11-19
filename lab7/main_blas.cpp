@@ -18,6 +18,9 @@ int main(int argc, char** argv) {
     std::cout << "Started searching for inversed matrix..." << std::endl;
 
     clock_gettime(CLOCK_MONOTONIC, &start);
+    // FindInverseMatrix нужно ключевое слово static для того чтобы метод вызывался без объекта
+    //иначе была бы запись типа: inverse.FindInverseMatrix(matrix, M)
+    // https://ravesli.com/urok-125-staticheskie-metody-klassa/
     Matrix inverse = Matrix::FindInverseMatrix(matrix, M);
     clock_gettime(CLOCK_MONOTONIC, &end);
 
