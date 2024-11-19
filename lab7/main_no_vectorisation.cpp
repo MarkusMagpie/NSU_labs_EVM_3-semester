@@ -1,4 +1,4 @@
-#include "main_no_vectrotisation.h"
+#include "main_no_vectorisation.h"
 
 int main(int argc, char** argv) {
     int N = 2048; // размер матрицы по умолчанию
