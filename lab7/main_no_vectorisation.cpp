@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
     Matrix identity = inverse.multiply(matrix); // Проверка результата (обратная * исходная) = единичная (предполагаемая)
 
     Matrix expectedIdentity(N);
-    expectedIdentity.makeIdentity(); // жидаемая единичная матрица.
+    expectedIdentity.makeIdentity(); // жидаемая единичная матрица
 
     std::cout << "Elapsed time: " << duration << " seconds" << std::endl;
     std::cout << "Difference: " << Matrix::calculateDifference(identity, expectedIdentity) << "\n" << std::endl;

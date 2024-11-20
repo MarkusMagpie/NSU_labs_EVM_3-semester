@@ -4,12 +4,11 @@
 #include <vector>
 #include <cmath>
 #include <cblas.h>
-#include <cstdlib>
 
 class Matrix {
 public:
     std::vector<float> elements;
-    unsigned int size;
+    int size;
 
     // конструктор для создания матрицы заданного размера, заполненяем сразу нулями
     Matrix(int n) : size(n), elements(n * n, 0.0f) {}
@@ -48,7 +47,7 @@ public:
     }
 
     // нахождение макс. суммы абсолютных значений строк матрицы
-    static float FindMaxAbsSumByRows(const Matrix& matrix) {
+    static float FindMaxAbsSumByRows(Matrix& matrix) {
         float max_sum = 0;
 
         for (int i = 0; i < matrix.size; i++) {
@@ -82,7 +81,7 @@ public:
 
     // Умножение двух матриц (level 3 BLAS function)
     // https://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-c/2023-0/cblas-gemm-001.html
-    static Matrix MultiplyMatrices(const Matrix& matrix1, const Matrix& matrix2) {
+    static Matrix MultiplyMatrices(Matrix& matrix1, Matrix& matrix2) {
         Matrix result(matrix1.size);
         // matrix1.size - количество строк/столбцов 1 матрицы
         // matrix2.size - количество столбцов 2 матрицы
@@ -99,7 +98,7 @@ public:
     }
 
     // для измерения абсолютной разницы между двумя матрицами
-    static float CalculateDifference(const Matrix& matrix1, const Matrix& matrix2) {
+    static float CalculateDifference(Matrix& matrix1, Matrix& matrix2) {
         float difference = 0;
 
         for (int i = 0; i < matrix1.size * matrix1.size; i++) {
@@ -110,8 +109,8 @@ public:
     }
 
     // нахождение обратной матрицы 
-    static Matrix FindInverseMatrix(const Matrix& matrix, int M) {
-        // 1 транспонирование и нормализация данной матрицы
+    static Matrix FindInverseMatrix(Matrix& matrix, int M) {
+        // 1
         Matrix B = matrix;
         Transpose(B);
 
@@ -120,27 +119,25 @@ public:
 
         MultiplyByNumber(B, 1.0f / (A1 * A2)); // масштабируем B приближая его к обратной матрице
 
-        // 2 построение начальной ошибки и установка начального значения результата
-        // R = I - BA - матрица-ошибка
+        // 2 
         Matrix R = CreateIdentityMatrix(matrix.size);
-        Matrix result = R;
+        Matrix result = R; // изначально result = E
 
         Matrix BA = MultiplyMatrices(B, matrix); // BA - приближение умножить на аргумент
         // https://developer.apple.com/documentation/accelerate/1513188-cblas_saxpy
-        cblas_saxpy(matrix.size * matrix.size, -1, BA.elements.data(), 1, R.elements.data(), 1); // R = I + (-1)BA
+        cblas_saxpy(matrix.size * matrix.size, -1, BA.elements.data(), 1, R.elements.data(), 1); // R = E + (-1)BA
 
-        // 3 итерирование метода 
+        // 3  
         Matrix R_series = R;
 
         // Итерации для максимального приближения обратной матрицы
-        for (unsigned int i = 1; i < M; i++) {
-            Matrix tmp = MultiplyMatrices(R_series, R);
-            R_series = tmp;
+        for (int i = 1; i < M; i++) {
+            R_series = MultiplyMatrices(R_series, R);
+            // result += R_series
             cblas_saxpy(result.size * result.size, 1.0f, R_series.elements.data(), 1, result.elements.data(), 1); // result += 1 * R_series
         }
 
-        MultiplyByNumber(result, 1.0f / (A1 * A2));
-        return result;
+        return MultiplyMatrices(result, B);
     }
 };
 

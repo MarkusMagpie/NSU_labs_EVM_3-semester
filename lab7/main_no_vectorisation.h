@@ -10,17 +10,13 @@
 class Matrix {
 public:
     std::vector<float> elements;    // храним элементы матрицы в массиве.
-    unsigned int size;              // размер матрицы (количество rows or columns)
+    int size;                       // размер матрицы (количество rows or columns)
 
     // конструктор - создает матрицу размера n x n и заполняет нулями
-    Matrix(unsigned int n) : size(n), elements(n * n, 0) {}
+    Matrix(int n) : size(n), elements(n * n, 0) {}
 
     // возвращает ссылку на элемент матрицы (строка row, столбец col)
-    float& at(unsigned int row, unsigned int col) {
-        return elements[row * size + col];
-    }
-
-    const float& at(unsigned int row, unsigned int col) const {
+    float& at(int row, int col) {
         return elements[row * size + col];
     }
 
@@ -49,7 +45,7 @@ public:
     }
 
     // вычитание другой матрицы из текущей
-    void subtract(const Matrix& other) {
+    void subtract(Matrix& other) {
         for (int i = 0; i < size * size; ++i) {
             elements[i] -= other.elements[i];
         }
@@ -70,12 +66,7 @@ public:
     //         return at(0, 0) * at(1, 1) - at(0, 1) * at(1, 0);
     //     }
 
-    //     // Разложение по первой строке
-    //     float det = 0.0f;
-    //     for (int col = 0; col < size; ++col) {
-    //         det += at(0, col) * cofactor(0, col);
-    //     }
-    //     return det;
+    //     // закончить как-то
     // }
 
     // умножение всех элементов матрицы на заданную константу
@@ -87,7 +78,7 @@ public:
 
     // СПОРНО
     // умножение текущей матрицы на другую матрицу
-    Matrix multiply(const Matrix& other) const {
+    Matrix multiply(Matrix& other) {
         Matrix result(size);
 
         for (int i = 0; i < size; ++i) {
@@ -101,13 +92,12 @@ public:
             }
         }
 
-        return result;    
-
+        return result;
     }
 
     // нахождение максимальной суммы модулей элементов по строкам
     // просто прохожу по строкам, считаю суммы элементов строки и ищу такую максималььную
-    static float findMaxAbsSumByRows(const Matrix& matrix) {
+    static float findMaxAbsSumByRows(Matrix& matrix) {
         float maxSum = 0.0f;
 
         for (int i = 0; i < matrix.size; ++i) {
@@ -122,7 +112,7 @@ public:
     }
 
     // расчет разности между двумя матрицами (поэлементная сумма разностей элементов матриц)
-    static float calculateDifference(const Matrix& m1, const Matrix& m2) {
+    static float calculateDifference(Matrix& m1, Matrix& m2) {
         float diff = 0.0f;
 
         for (int i = 0; i < m1.size * m1.size; ++i) {
@@ -132,7 +122,7 @@ public:
         return diff;
     }
 
-    void print() const {
+    void print() {
         for (int i = 0; i < size; ++i) {
             for (int j = 0; j < size; ++j) {
                 std::cout << at(i, j) << " ";
@@ -146,8 +136,8 @@ public:
 
 
 // ВЫЧЕИСЛЕНИЕ ОБРАТНОЙ МАТРИЦЫ
-Matrix findInverseMatrix(const Matrix& matrix, unsigned int iterations) {
-    unsigned int n = matrix.size;
+Matrix findInverseMatrix(Matrix& matrix, int iterations) {
+    int n = matrix.size;
 
     // транспонированируем 
     Matrix B = matrix;
@@ -175,17 +165,14 @@ Matrix findInverseMatrix(const Matrix& matrix, unsigned int iterations) {
 
     // Вычисление R^k и добавление к result.
     Matrix RSeries = R;
-    for (unsigned int i = 1; i < iterations; ++i) {
+    for (int i = 1; i < iterations; ++i) {
         RSeries = RSeries.multiply(R);
         result.add(RSeries);
     }
 
-    // Умножение на транспонированную B.
-    B.transpose();
+    // B.transpose();
     return result.multiply(B);
 
     // R = E - BA
     // A^{-1} = B * (E + R + R^2 + ... + R^{k})
 }
-
-int main(int argc, char** argv);
