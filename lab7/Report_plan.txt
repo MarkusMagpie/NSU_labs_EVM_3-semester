@@ -1,4 +1,4 @@
-1 Программа с BLAS 
+Программа с BLAS 
 https://mathhelpplanet.com/static.php?p=iteratsionnyi-metod-shultsa-nakhozhdeniya-obratnoi-matritsy
 cblas_sscal - умножение матрицы на число
 cblas_sgemm - умножение двух матриц
@@ -9,13 +9,13 @@ How to compile:
     ./blas
 // флаг -lblas говорит что нужно подключить библиотеку BLAS (Basic Linear Algebra Subprograms) при создании исполняемого файла.
 ----------------------------------------------------------------------------------------------------
-1.3 Программа без ручной векторизации
+Программа без ручной векторизации
 How to compile:
     g++ -o no_vector main_no_vectrotisation.cpp
     ./no_vector
     
 ----------------------------------------------------------------------------------------------------
-1.4 Программа с ручной векторизации
+Программа с ручной векторизации
 How to compile:
     g++ -o vector main_vectrotisation.cpp
     ./vector
@@ -28,6 +28,80 @@ How to compile:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 Valgrind (cachegrind)
-    g++ -o no_vector main_no_vectorisation.cpp 
-    valgrind --tool=cachegrind ./no_vector 256 10
-    cg_annotate cachegrind.out.<PID>, где <PID> - process identificator
+    g++ -O3 -g -o vector main_vectorisation.cpp 
+    valgrind --tool=cachegrind --cachegrind-out-file=vector_cachegrind ./vector 256 10
+    cg_annotate vector_cachegrind
+    cg_annotate vector_cachegrind --auto=yes  --context=1
+
+    Анализ выходных данных программы с РУЧНОЙ ВЕКТОРИЗАЦИЕЙ:
+        -- Summary
+        Общее количество инструкций: 329,910,017
+
+        -- File:function summary
+        Основная нагрузка связана с функцией Matrix::FindInverseMatrix, отвечает за 46.6% от общего числа инструкций
+        Практически треть (30.5%) операций - произведения векторов
+        15.3% - сумма векторов
+        
+        --------------------------------------------------------------------------------
+        -- Annotated source file: /home/sorokinm/Desktop/NSU_labs_EVM_3-semester/lab7/main_vectorisation.h
+        --------------------------------------------------------------------------------
+        -- line 60 ----------------------------------------
+                .                  const __m128* y = reinterpret_cast<const __m128*>(b);
+        1,572,864  (0.5%)          __m128 result_vector = _mm_setzero_ps();
+                .          
+        153,354,301 (46.5%)        for (int i = 0; i < size / 4; i++) {
+                .                      result_vector = _mm_add_ps(result_vector, _mm_mul_ps(x[i], y[i]));
+        -- line 64 ----------------------------------------
+
+        --------------------------------------------------------------------------------
+        -- Annotated source file: /usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h
+        --------------------------------------------------------------------------------
+        Ir_________________ 
+
+        -- line 191 ----------------------------------------
+                .          {
+        50,331,648 (15.3%)    return (__m128) ((__v4sf)__A + (__v4sf)__B);
+                .          }
+        -- line 193 ----------------------------------------
+        -- line 203 ----------------------------------------
+                .          {
+        100,663,296 (30.5%)    return (__m128) ((__v4sf)__A * (__v4sf)__B);
+                .          }
+        -- line 205 ----------------------------------------
+
+----------------------------------------------------------------------------------------------------
+    g++ -O3 -g -o no_vector main_no_vectorisation.cpp 
+    valgrind --tool=cachegrind --cachegrind-out-file=no_vector_cachegrind ./no_vector 256 10
+    cg_annotate no_vector_cachegrind --auto=yes  --context=1
+
+    Анализ выходных данных БЕЗ ВЕКТОРИЗАЦИИ:
+        -- Summary
+        Общее количество инструкций: 1,133,715,851
+
+        -- File:function summary
+        findInverseMatrix: 90.7% инструкций (1,028,219,350 операций)
+        Matrix::multiply: 8.2% инструкций (93,393,959)
+
+        --------------------------------------------------------------------------------
+        -- Annotated source file: /home/sorokinm/Desktop/NSU_labs_EVM_3-semester/lab7/main_no_vectorisation.h
+        --------------------------------------------------------------------------------
+        -- line 80 ----------------------------------------
+                    .              // умножение текущей матрицы на другую матрицу
+                11  (0.0%)      Matrix multiply(Matrix& other) {
+                    1  (0.0%)          Matrix result(size);
+                    .          
+            26,620  (0.0%)          for (int i = 0; i < size; ++i) {
+            3,292,928  (0.3%)              for (int j = 0; j < size; ++j) {
+            1,703,936  (0.2%)                  float dotProduct = 0.0f;
+        105,250,816  (9.3%)                  for (int k = 0; k < size; ++k) {
+        1,006,632,960 (88.8%)                      dotProduct += at(i, k) * other.at(k, j);
+                    .                          }
+        -- line 89 ----------------------------------------
+
+Сравнение:
+без векторизации вычисления выполняются поэлементно => больше операций => медленнее
+увеличение числа инструкций связано с отсутствием SIMD-операций и их заменой обычными циклами
+
+Ниже - количество инстукций из обоих вариантов программы:
+Версия с векторизацией: 292,607,382 (88.7%, 88.7%)  Matrix::FindInverseMatrix(Matrix&, int):
+Без векторизации: 1,028,646,344 (90.7%, 90.7%)  findInverseMatrix(Matrix&, int):
