@@ -95,6 +95,25 @@ public:
         return result;
     }
 
+    // беру строку изначальной матрицы (a), прохожу каждую строку второй матрицы (b или other), перемножаю их и добавляю в результат (результат заполняется построчно)
+    // кэш-контроллер благодаря построчному проходу осознает методику прохода => меньше cache misses => быстрее
+    Matrix multiply_v1(Matrix& other) {
+        Matrix result(size);
+
+        for (int i = 0; i < size; ++i) {
+            float *c = result.elements.data() + i * size; // указатель на начало строки в результирующей матрице
+            for (int k = 0; k < size; ++k) {
+                const float *b = other.elements.data() + k * size; // указатель на начало строки во второй матрице (other)
+                float a = at(i, k); // элемент из текущей матрицы
+                for (int j = 0; j < size; ++j) {
+                    c[j] += a * b[j];
+                }
+            }
+        }
+
+        return result;
+    }
+
     // нахождение максимальной суммы модулей элементов по строкам
     // просто прохожу по строкам, считаю суммы элементов строки и ищу такую максималььную
     static float findMaxAbsSumByRows(Matrix& matrix) {
