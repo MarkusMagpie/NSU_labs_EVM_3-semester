@@ -29,7 +29,7 @@ How to compile:
 ----------------------------------------------------------------------------------------------------
 Valgrind (cachegrind)
     g++ -O3 -g -o vector main_vectorisation.cpp 
-    valgrind --tool=cachegrind --cachegrind-out-file=vector_cachegrind ./vector 256 10
+    valgrind --tool=cachegrind --cachegrind-out-file=vector_cachegrind --cache-sim=yes ./vector 256 10
     cg_annotate vector_cachegrind
     cg_annotate vector_cachegrind --auto=yes  --context=1
 
