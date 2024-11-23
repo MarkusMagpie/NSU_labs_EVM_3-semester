@@ -56,8 +56,8 @@ public:
     }
 
     float dot(float* a, float* b) {
-        const __m128* x = reinterpret_cast<const __m128*>(a);
-        const __m128* y = reinterpret_cast<const __m128*>(b);
+        __m128* x = reinterpret_cast<__m128*>(a);
+        __m128* y = reinterpret_cast<__m128*>(b);
         __m128 result_vector = _mm_setzero_ps();
 
         for (int i = 0; i < size / 4; i++) {
