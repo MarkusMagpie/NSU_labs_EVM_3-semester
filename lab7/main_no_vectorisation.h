@@ -175,7 +175,7 @@ Matrix findInverseMatrix(Matrix& matrix, int iterations) {
     R.makeIdentity();
 
     // вычисление BA и R = E - BA
-    Matrix BA = B.multiply(matrix);
+    Matrix BA = B.multiply_v1(matrix);
     R.subtract(BA);
 
     // итоговая матрица result (пока единичная)
@@ -185,12 +185,12 @@ Matrix findInverseMatrix(Matrix& matrix, int iterations) {
     // Вычисление R^k и добавление к result.
     Matrix RSeries = R;
     for (int i = 1; i < iterations; ++i) {
-        RSeries = RSeries.multiply(R);
+        RSeries = RSeries.multiply_v1(R);
         result.add(RSeries);
     }
 
     // B.transpose();
-    return result.multiply(B);
+    return result.multiply_v1(B);
 
     // R = E - BA
     // A^{-1} = B * (E + R + R^2 + ... + R^{k})

@@ -71,11 +71,39 @@ public:
 
     Matrix MultiplyMatrices(Matrix& other) {
         Matrix result(size);
+        std::vector<float> column_buffer(size); // Буфер для хранения текущего столбца
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                // одну и ту же строчку с индексом [i * N] умножаю на столбцы из B [j * N]
-                result.elements[i * size + j] = dot(&elements[i * size], &other.elements[j * size]);
+                // столбец j из матрицы other в column_buffer
+                for (int k = 0; k < size; k++) {
+                    column_buffer[k] = other.elements[k * size + j];
+                }
+
+                // скалярное произведение строки i из A и столбца j из B
+                result.elements[i * size + j] = dot(&elements[i * size], column_buffer.data());
+            }
+        }
+
+        return result;
+    }
+
+    Matrix MultiplyMatrices_v1(Matrix& other) {
+        Matrix result(size);
+
+        for (int i = 0; i < size; ++i) {
+            float *c = result.elements.data() + i * size; // указатель на начало строки в результирующей матрице
+            for (int k = 0; k < size; ++k) {
+                float *b = other.elements.data() + k * size; // указатель на начало строки во второй матрице (other)
+                float a = elements[i * size + k]; // элемент из текущей матрицы
+                
+                for (int j = 0; j < size; j += 4) {
+                    __m128 b_vec = _mm_loadu_ps(b + j);         // загружаем 4 элемента из b
+                    __m128 a_vec = _mm_set1_ps(a);              // загружаем a в каждую позицию вектора
+                    __m128 c_vec = _mm_loadu_ps(c + j);         // загружаем текущие значения результата
+                    c_vec = _mm_add_ps(c_vec, _mm_mul_ps(a_vec, b_vec));    // c[j:j+4] += a * b[j:j+4]
+                    _mm_storeu_ps(c + j, c_vec); // сохраняем обратно в c
+                }
             }
         }
 
@@ -108,7 +136,7 @@ public:
         R.MakeIdentity();
 
         // BA = (A^{T}/(A1 * A2)) * A
-        Matrix BA = B.MultiplyMatrices(matrix);
+        Matrix BA = B.MultiplyMatrices_v1(matrix);
 
         // R = E - BA
         for (int i = 0; i < matrix.size * matrix.size; i++) {
@@ -121,14 +149,14 @@ public:
         // Вычисление R^k и добавление к result
         Matrix RSeries = R;
         for (int i = 1; i < iterations; i++) {
-            RSeries = RSeries.MultiplyMatrices(R);
+            RSeries = RSeries.MultiplyMatrices_v1(R);
             // result += R^k (R^k = Rseries)
             for (int j = 0; j < size * size; j++) {
                 result.elements[j] += RSeries.elements[j];
             }
         }
 
-        result = result.MultiplyMatrices(B);
+        result = result.MultiplyMatrices_v1(B);
         return result;
     }
 };

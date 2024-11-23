@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     double duration = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
     // inverse.transpose(); // транспонирование обратной матрицы inverse
-    Matrix identity = inverse.multiply(matrix); // Проверка результата (обратная * исходная) = единичная (предполагаемая)
+    Matrix identity = inverse.multiply_v1(matrix); // Проверка результата (обратная * исходная) = единичная (предполагаемая)
 
     Matrix expectedIdentity(N);
     expectedIdentity.makeIdentity(); // жидаемая единичная матрица

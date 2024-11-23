@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 
     std::cout << "Elapsed time: " << duration << " seconds" << std::endl;
 
-    Matrix identity = matrix.MultiplyMatrices(inverse); // Проверка результата (обратная * исходная) = единичная (предполагаемая)
+    Matrix identity = matrix.MultiplyMatrices_v1(inverse); // Проверка результата (обратная * исходная) = единичная (предполагаемая)
     
     Matrix expected(N);
     expected.MakeIdentity();
