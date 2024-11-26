@@ -1,8 +1,14 @@
 #include "main_no_vectorisation.h"
 #include "gtest/gtest.h"
+
+#include <random> // std::mt19937
+#include <new>
+
 #include <cmath>
 #include <ctime>
 #include <cstdlib>  // rand; srand
+
+#include <Eigen/Dense>
 
 // создание и заполнение матрицы нулями
 TEST(MatrixTests, ConstructorTest) {
@@ -123,27 +129,6 @@ TEST(MatrixTests, FindInverseIdentityTest) {
     }
 }
 
-// TEST(MatrixTests, FindInverseIdentityTest2) {
-//     Matrix m(3);
-//     m.at(0, 0) = 1.0f, m.at(0, 1) = 2.0f, m.at(0, 2) = 3.0f;
-//     m.at(1, 0) = 4.0f, m.at(1, 1) = 5.0f, m.at(1, 2) = 6.0f;
-//     m.at(2, 0) = 7.0f, m.at(2, 1) = 8.0f, m.at(2, 2) = 9.0f;
-
-//     Matrix inverse = findInverseMatrix(m, 10);
-
-//     Matrix identity = m.multiply(inverse);
-
-//     Matrix expectedIdentity(3);
-//     expectedIdentity.makeIdentity();
-
-
-//     for (int i = 0; i < 3; ++i) {
-//         for (int j = 0; j < 3; ++j) {
-//             ASSERT_NEAR(identity.at(i, j), expectedIdentity.at(i, j), 1);
-//         }
-//     }   
-// }
-
 // Проверяет расчет максимальной суммы модулей элементов по строкам
 TEST(MatrixTests, FindMaxAbsSumByRowsTest) {
     Matrix m(2);
@@ -186,6 +171,54 @@ TEST(MatrixTests, CalculateDifferenceTest) {
 
     EXPECT_EQ(diff, 4.0f); // Сумма модулей разностей всех элементов
 }
+
+void create_random_diagonally_dominant_matrix(Matrix& matrix) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dis(0.1f, 10.0f);
+
+    for (int i = 0; i < matrix.size; ++i) {
+        for (int j = 0; j < matrix.size; ++j) {
+            matrix.at(i, j) = dis(gen);
+        }
+    }
+
+    // добавляем диагональное доминирование
+    for (int i = 0; i < matrix.size; ++i) {
+        float row_sum = 0.0f;
+        for (int j = 0; j < matrix.size; ++j) {
+            row_sum += matrix.at(i, j);
+        }
+        matrix.at(i, i) += row_sum;
+    }
+}
+
+// параметризованный тест
+class MatrixInversionParametrizedTest : public ::testing::TestWithParam<std::size_t> {};
+
+TEST_P(MatrixInversionParametrizedTest, test1) {
+    std::size_t N = GetParam();
+    Matrix matrix(N);
+    std::cout << "N = " << N << std::endl;
+
+    create_random_diagonally_dominant_matrix(matrix);
+
+    Matrix inverse_matrix = findInverseMatrix(matrix, 100);
+
+    // преобразуем мою изначальную матрицу и её обратную в формат Eigen для проверки
+    Eigen::MatrixXf eigen_matrix = Eigen::Map<Eigen::MatrixXf>(matrix.elements.data(), N, N);
+    Eigen::MatrixXf eigen_inverse = Eigen::Map<Eigen::MatrixXf>(inverse_matrix.elements.data(), N, N);
+
+    // проверяем, что произведение matrix * inverse_matrix близко к единичной
+    Eigen::MatrixXf identity_check = eigen_matrix * eigen_inverse;
+    EXPECT_TRUE(identity_check.isIdentity(1));
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    MatrixInversionTests,
+    MatrixInversionParametrizedTest,
+    ::testing::Values(4, 16, 32, 64, 128, 256, 512)
+);
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

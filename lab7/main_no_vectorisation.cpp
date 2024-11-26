@@ -14,10 +14,8 @@ int main(int argc, char** argv) {
     Matrix matrix(N);
     matrix.fillRandom();
 
-    // if (matrix.determinant() == 0.0) {
-    //     std::cerr << "Сгенерированная сслучайно матрица вырождена (определитель равен 0) и не имеет обратной \n" << std::endl;
-    //     return 1;
-    // }
+    std::cout << "Original matrix: " << std::endl;
+    matrix.print();
 
     struct timespec start, end;
     std::cout << "Started searching for inversed matrix..." << std::endl;
@@ -27,11 +25,20 @@ int main(int argc, char** argv) {
     clock_gettime(CLOCK_MONOTONIC, &end); // замер времени окончания вычисления
     double duration = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
+    std::cout << "Inverse matrix: " << std::endl;
+    inverse.print();
+
     // inverse.transpose(); // транспонирование обратной матрицы inverse
     Matrix identity = inverse.multiply_v1(matrix); // Проверка результата (обратная * исходная) = единичная (предполагаемая)
 
     Matrix expectedIdentity(N);
     expectedIdentity.makeIdentity(); // жидаемая единичная матрица
+
+    std::cout << "Identity matrix: " << std::endl;
+    identity.print();
+
+    std::cout << "Expected identity matrix: " << std::endl;
+    expectedIdentity.print();
 
     std::cout << "Elapsed time: " << duration << " seconds" << std::endl;
     std::cout << "Difference: " << Matrix::calculateDifference(identity, expectedIdentity) << "\n" << std::endl;
