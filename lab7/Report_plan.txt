@@ -22,7 +22,8 @@ How to compile:
 
 ----------------------------------------------------------------------------------------------------
 Компиляция и запуск гугл-тестов для проверки варианта программы без векторизации:
-    g++ -o matrix_tests MatrixTest.cpp -lgtest -lgtest_main -pthread
+    // g++ -o matrix_tests matrixtest.cpp -lgtest -lgtest_main -pthread
+    g++ -o matrix_tests -I /usr/include/eigen3 matrixtest.cpp -lgtest -lgtest_main -pthread
     ./matrix_tests
 
 ----------------------------------------------------------------------------------------------------
