@@ -10,27 +10,27 @@
 
 #define RUN_TIMES 4  // количество прогонов для замера
 
-int N = 200000000;  // размер массива
-
 // Функция инициализации массива с фрагментированным отступом
-void InitArray(unsigned int *array, unsigned int fragment_count, size_t offset, size_t size){
-    int i, j;
+int* InitArray(int fragment_count, size_t offset, size_t size){
+    int array_size = offset * fragment_count;
+    int* array = new int[array_size];
 
-    for(i = 0; i < size; i++) {
-        // std::cout << "i = " << i << std::endl;
-        for(j = 1; j < fragment_count; j++) {
-            array[i + (j - 1) * offset] = i + j * offset;
-            // std::cout << "array[" << i + (j - 1) * offset << "] = " << i + j * offset << std::endl;
+    for(int i = 0; i < size / fragment_count; ++i) {
+        for(int j = 0; j < fragment_count - 1; ++j) {
+            array[i + j * offset] = i + (j + 1) * offset;
         }
-        array[i + (j - 1) * offset] = i + 1;
-        // std::cout << "array[" << i + (j - 1) * offset << "] = " << i + 1 << std::endl;
+
+        array[i + (fragment_count - 1) * offset] = i + 1;
     }
 
-    array[i - 1 + (j - 1) * offset] = 0;
+    // array[size - 1] = 0;
+    array[size / fragment_count - 1 + (fragment_count - 1) * offset] = 0;
+
+    return array;
 }
 
 // Функция для замера времени обхода массива
-unsigned long long RunArray(unsigned int *array) {
+unsigned long long RunArray(int *array, int size) {
     unsigned long long start, end;
     unsigned long long min_time = ULLONG_MAX;
 
@@ -38,7 +38,7 @@ unsigned long long RunArray(unsigned int *array) {
         start = __rdtsc();  // начало замера времени
 
         // Обход массива
-        for(volatile size_t k = 0, i = 0; i < N; i++) {
+        for(volatile size_t k = 0, i = 0; i < size; i++) {
             k = array[k];
         }
 
@@ -46,53 +46,30 @@ unsigned long long RunArray(unsigned int *array) {
         min_time = std::min(min_time, end - start);
     }
 
-    return min_time;
+    return min_time / size;
 }
 
 // подсчет времени для различных фрагментов
-void CountTime(unsigned int *array, unsigned int fragment_count, int offset, int size, std::ofstream& file) {
-    InitArray(array, fragment_count, offset, size);
-    unsigned long long time = RunArray(array) / N;
+void CountTime(int fragment_count, int offset, int size, std::ofstream& file) {
+    int* array = InitArray(fragment_count, offset, size);
+    unsigned long long time = RunArray(array, size);
 
     file << fragment_count << " " << time << std::endl;
 }
 
 int main() {
-    // память для массива
-    auto *array = new unsigned int[N];
+    int offset = 16 * 1024 * 1024 / sizeof(int); // шаг(смещение) между фрагментами - 16МБ по условию задачи
+    int array_size = L1 / sizeof(int); // размер массива для L1d кэша
 
-    if (array == nullptr) {
-        std::cerr << "Ошибка: не удалось выделить память" << std::endl;
-        delete[] array;
-        return 1;
-    }
+    std::ofstream l1_file("l1.txt");
 
-    std::ofstream l1File("l1.txt");
-    // std::ofstream l2File("l2.txt");
-    // std::ofstream l3File("l3.txt");
-
-    if (!l1File.is_open()) {
-        std::cerr << "Ошибка: не удалось открыть файл" << std::endl;
-        delete[] array;
-        return 1;
-    }
-
-    unsigned int offsets[] = {L1 * 2, L2 * 2}; // шаги(смещения) между фрагментами
-    unsigned int block_size[] = {L1 / sizeof(int), L2 / sizeof(int)};
-
-    std::ofstream* files[] = {&l1File}; // массив указателей на файлы с результатами
-
-    // перебираем фрагменты для разных кешей
-    // for (int i = 0; i < 3; ++i) {
     for (int fragment_count = 1; fragment_count <= 32; ++fragment_count) {
-        CountTime(array, fragment_count, offsets[0], block_size[0], *files[0]);
+        CountTime(fragment_count, offset, array_size, l1_file);
     }
 
     std::cout << "Завершил перебор фрагментов" << std::endl;
 
-    l1File.close();
-    // l2File.close();
+    l1_file.close();
 
-    delete[] array;
     return 0;
 }
