@@ -5,7 +5,6 @@
 
 #include "subtask1.h"
 
-// size_t CACHE_LINE_SIZE = 64;
 size_t ARRAY_SIZE = 64 * 1024 * 1024;
 size_t NUM_THREADS = 4; // количество потоков
 
@@ -44,11 +43,11 @@ void MemoryTask(size_t thread_id, void (*operation)(float*, float*, size_t), siz
     std::this_thread::sleep_for(std::chrono::milliseconds(100)); // пауза 100 мс чтобы все потоки были в одинаковом состоянии перед началом теста
 
     // Тест производительности
-    operation(src, dest, size); // разогрев? кэша...? (УТОЧНИТЬ)
+    operation(src, dest, size); // (УТОЧНИТЬ зачем 3 раза)
     auto start = std::chrono::high_resolution_clock::now();
     operation(src, dest, size);
     auto end = std::chrono::high_resolution_clock::now();
-    operation(src, dest, size); // Охлаждение
+    operation(src, dest, size);
 
     std::chrono::duration<double, std::nano> elapsed = end - start;
     int duration = elapsed.count();
