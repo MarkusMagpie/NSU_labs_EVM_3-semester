@@ -17,6 +17,14 @@ void TestRead(T* array, size_t size) {
     }
 }
 
+// 2 subtask
+void ReadMemory(float* src, float*, size_t size) {
+    volatile float sum = 0;
+    for (volatile size_t i = 0; i < size; ++i) {
+        sum += src[i];
+    }
+}
+
 // unrollled чтение
 template <typename T>
 void UnrolledTestRead(T* array, size_t size) {
@@ -53,6 +61,13 @@ void TestWrite(T* array, size_t size) {
     }
 }
 
+// 2 subtask
+void WriteMemory(float*, float* dest, size_t size) {
+    for (volatile size_t i = 0; i < size; ++i) {
+        dest[i] = 0;
+    }
+}
+
 // unrolled запись
 template <typename T>
 void UnrolledTestWrite(T* array, size_t size) {
@@ -75,6 +90,13 @@ void UnrolledTestWrite(T* array, size_t size) {
 // копирование в массив dest
 template <typename T>
 void TestCopy(T* src, T* dest, size_t size) {
+    for (volatile size_t i = 0; i < size; ++i) {
+        dest[i] = src[i];
+    }
+}
+
+// 2 subtask
+void CopyMemory(float* src, float* dest, size_t size) {
     for (volatile size_t i = 0; i < size; ++i) {
         dest[i] = src[i];
     }
@@ -103,6 +125,7 @@ void Test_Memcpy(void* src, void* dest, size_t size) {
     std::memcpy(dest, src, size);
 }
 
+// 1 and 2 subtask
 void Non_Temporal_Copy(float* src, float* dest, size_t size) {
     for (size_t i = 0; i < size; i += 4) {
         __m128 data = _mm_load_ps(&src[i]); // загружаем 4 float элемента из src

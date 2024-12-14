@@ -1,13 +1,9 @@
 #include <iostream>
-#include <vector>
-#include <chrono> // std::chrono
-#include <cstring> // std::memcpy
-#include <immintrin.h> // SSE instructions
 
 # include "subtask1.h"
 
 // так как мой кэш не инклюзивный, то нужен массив больше чем L1d + L2 + L3 (power cores проврека по htop) = 48KB + 1.25 * 1024KB + 24 * 1024KB = 48+1280+24576 = 25904KB > 25MB
-size_t ARRAY_SIZE = 64 * 1024 * 1024; // Размер массива (512 МБ)
+size_t ARRAY_SIZE = 64 * 1024 * 1024; // размер массива
 
 template <typename Func>
 void benchmark(Func func, const char* description) {
@@ -19,7 +15,7 @@ void benchmark(Func func, const char* description) {
 
 int main() {
     // Создаем большие массивы
-    // ТУТ МОЖНО КАК РАЗ МЕНЯТЬ ТИП ДАННЫХ В МАССИВЕ 
+    // ТУТ МОЖНО КАК РАЗ МЕНЯТЬ ТИПЫ ДАННЫХ В ВЕКТОРАХ 
     long size = ARRAY_SIZE / sizeof(int);
     std::vector<int> src(size, 1);
     std::vector<int> dest(size); // забит нулями
