@@ -27,20 +27,11 @@ void MemoryTask(size_t thread_id, void (*operation)(float*, float*, size_t), siz
     float *src = new float[size];
     float *dest = new float[size];
 
-    if (!src || !dest) {
-        std::cout << "Ошибка выделения памяти" << std::endl;
-
-        delete[] src;
-        delete[] dest;
-        return;
-    }
-
-    std::fill(src, src + size, 1.0f);   // заполнение src массива числами 1
+    std::fill(src, src + size, 1.0f);
     std::fill(dest, dest + size, 0.0f);
-
     
     // барьер (блокирует выполнение текущего потока в течение установленного периода)
-    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // пауза 100 мс чтобы все потоки были в одинаковом состоянии перед началом теста
+    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // пауза чтобы все потоки были в одинаковом состоянии перед началом теста
 
     // Тест производительности
     operation(src, dest, size); // (УТОЧНИТЬ зачем 3 раза)

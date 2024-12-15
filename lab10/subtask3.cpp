@@ -14,10 +14,10 @@ void BindThreadToCore(size_t thread_id) {
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset); // очистка cpuset
     if (thread_id < 12) {
-        // привязываем потоки к power-ядрам (2 потока на ядро, от 0 до 11)
+        // привязываем потоки к power-ядрам (2 потока на ядро, от 1 до 12)
         CPU_SET(thread_id / 2, &cpuset); 
     } else {
-        // Привязываем потоки к efficient-ядрам (по одному потоку на ядро, от 12 до 19)
+        // Привязываем потоки к efficient-ядрам (по одному потоку на ядро, от 13 до 20)
         CPU_SET(12 + (thread_id - 12), &cpuset);
     }
     sched_setaffinity(0, sizeof(cpu_set_t), &cpuset);
@@ -30,13 +30,6 @@ void MemoryTask(size_t thread_id, void (*operation)(float*, float*, size_t), siz
 
     float* src = new float[size];
     float* dest = new float[size];
-
-    if (!src || !dest) {
-        std::cout << "Ошибка выделения памяти" << std::endl;
-        delete[] src;
-        delete[] dest;
-        return;
-    }
 
     std::fill(src, src + size, 1.0f);
     std::fill(dest, dest + size, 0.0f);
