@@ -31,7 +31,7 @@ void MemoryTask(size_t thread_id, void (*operation)(float*, float*, size_t), siz
     std::fill(dest, dest + size, 0.0f);
     
     // барьер (блокирует выполнение текущего потока в течение установленного периода)
-    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // пауза чтобы все потоки были в одинаковом состоянии перед началом теста
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     // Тест производительности
     operation(src, dest, size); // (УТОЧНИТЬ зачем 3 раза)
