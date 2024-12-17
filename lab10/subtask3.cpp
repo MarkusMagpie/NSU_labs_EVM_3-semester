@@ -26,18 +26,18 @@ void BindThreadToCore(size_t thread_id) {
     }
     sched_setaffinity(0, sizeof(cpu_set_t), &cpuset); // поставили
 
-    std::lock_guard<std::mutex> lock(output_mutex);
-    std::cout << "Привязка потока " << thread_id << " к ядру " << thread_id << std::endl;
-    std::cout << "Всего привязок " << CPU_COUNT(&cpuset) << std::endl;
-    
-    // sched_getaffinity(getpid(), sizeof(cpu_set_t), &cpuset); // получили
+    // std::lock_guard<std::mutex> lock(output_mutex);
+    // std::cout << "Привязка потока " << thread_id << " к ядру " << std::endl;
+    // std::cout << "Всего привязок " << CPU_COUNT(&cpuset) << std::endl;
 
-    // // std::lock_guard<std::mutex> lock(output_mutex);
-    // // std::cout << "Количество доступных потоков: " << sysconf(_SC_NPROCESSORS_ONLN) << std::endl;
-    // for (size_t i = 0; i < sysconf(_SC_NPROCESSORS_ONLN); ++i) {
-    //     std::cout << CPU_ISSET_S(i, sizeof(cpu_set_t), &cpuset) << " ";
-    // }
-    // std::cout << std::endl;
+    sched_getaffinity(0, sizeof(cpu_set_t), &cpuset); // получили
+
+    std::lock_guard<std::mutex> lock(output_mutex);
+    // std::cout << "Количество доступных потоков: " << sysconf(_SC_NPROCESSORS_ONLN) << std::endl; // количество логических процессоров, доступных на текущем устройстве для выполнения задач.
+    for (size_t i = 0; i < sysconf(_SC_NPROCESSORS_ONLN); ++i) {
+        std::cout << CPU_ISSET_S(i, sizeof(cpu_set_t), &cpuset) << " ";
+    }
+    std::cout << std::endl;
 }
 
 // теста памяти
