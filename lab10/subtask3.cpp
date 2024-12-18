@@ -114,6 +114,9 @@ int main() {
     threads.clear();
 
     std::cout << "\nТест non-temporal копирования памяти" << std::endl;
+    
+    std::cout << "Начало теста времени для потоков\n" << std::endl;
+    auto start = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < NUM_THREADS; ++i) {
         threads.emplace_back(MemoryTask, i, Non_Temporal_Copy, ARRAY_SIZE / NUM_THREADS);
     }
@@ -121,6 +124,14 @@ int main() {
         t.join();
     }
     threads.clear();
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::cout << "Конец теста времени для потоков\n" << std::endl;
+    std::chrono::duration<double, std::nano> elapsed = end - start;
+    int duration = elapsed.count();
+    double bandwidth = (ARRAY_SIZE * sizeof(float)) / (duration / 1.0e9) / (1 << 30); // GB/s
+    std::cout << "ОБЩЕЕ ВРЕМЯ ДЛЯ ПОТОКОВ: " << duration << " НАНОСЕКУНД, ИЛИ " << duration / 1.0e9 << " СЕКУНД; " << bandwidth << " GB/s" << std::endl;
+
 
     return 0;
 }
